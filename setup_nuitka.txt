@@ -1,0 +1,3 @@
+# Change /path/to/Ubuntu-Desktop-File(PyQt6) by your directory path
+cd /path/to/Ubuntu-Desktop-File(PyQt6)
+python3.10 -m nuitka --deployment --onefile --include-data-dir=Assets=Assets --enable-plugin=pyqt6 ubuntu_desktop_file_main.py
