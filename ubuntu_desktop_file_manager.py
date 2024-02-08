@@ -17,7 +17,7 @@ class UbuntuDesktopFileManager:
         self._connect_signals(
             {
                 self.udf_view.pushButton_exec: self.select_exec_or_python_file,
-                self.udf_view.pushButton_icon: self.get_icon,
+                self.udf_view.pushButton_icon: self.set_icon,
                 self.udf_view.pushButton_save: self.save_desktop_file,
                 self.udf_view.pushButton_quit: QApplication.exit,
                 self.udf_view.pushButton_categories: self.exec_categories,
@@ -147,7 +147,7 @@ class UbuntuDesktopFileManager:
         else:
             self.udf_view.lineEdit_exec.clear()
 
-    def get_icon(self) -> None:
+    def set_icon(self) -> None:
         # Open a file dialog to select the icon file
         if icon_file := QFileDialog.getOpenFileName(self.udf_view, "Select Icon file.")[0]:
             pixmap = QPixmap(icon_file)

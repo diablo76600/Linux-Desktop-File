@@ -52,9 +52,9 @@ class UbuntuDesktopFileCategories(QDialog):
         self.pushButton = QPushButton(self)
         self.pushButton.setText("Ok")
         self.pushButton.setGeometry(QRect(int((self.width() / 2) - 34), 168, 68, 32))
-        self.pushButton.clicked.connect(self.get_type_categories)
+        self.pushButton.clicked.connect(self.retrieve_selected_categories)
 
-    def get_type_categories(self) -> None:
+    def retrieve_selected_categories(self) -> None:
         # Retrieve the selected categories from the checkboxes
         list_categories = [
             check_box.text()

@@ -9,13 +9,14 @@ Dépendance PyQt6 :
 \
 \
 L'interface :  
-![Interface](https://github.com/diablo76600/Ubuntu-Desktop/assets/3962168/d63e3cea-5b9b-4094-8c33-119a33dc8f4f)
+![Interface](https://github.com/diablo76600/Ubuntu-Desktop-File/assets/3962168/795caaaa-b517-4aa3-a508-94d3c8661dc4)
 \
 \
 L'option Categories :  
-![Categories](https://github.com/diablo76600/Ubuntu-Desktop/assets/3962168/68f5580e-2b59-4e65-bae1-82cbad189d97)
-
-![InterfaceFinale](https://github.com/diablo76600/Ubuntu-Desktop/assets/3962168/bd8dc847-20ef-4d10-9060-e3902d5bd041)
+![Categories](https://github.com/diablo76600/Ubuntu-Desktop-File/assets/3962168/2d6daffc-0086-422d-a43f-5920f62324de)
+\
+\
+![InterfaceFinale](https://github.com/diablo76600/Ubuntu-Desktop-File/assets/3962168/71ef9d0c-e7bc-4d46-b94a-22e556440ff7)
 \
 \
 Le fichier généré :
@@ -37,7 +38,8 @@ Version=1.0.6</code></pre>
 Launch with Python (par défaut Python3)
 
 L'option activée :  
-![InterfaceFinalePy](https://github.com/diablo76600/Ubuntu-Desktop/assets/3962168/d81d4aa9-11a2-49c0-8262-22fd8de8a946)
+![InterfaceFinalePy](https://github.com/diablo76600/Ubuntu-Desktop-File/assets/3962168/924ef60c-89e7-483a-891d-e4417dc7ee35)
+
 
 Le fichier généré :  
 <pre><code>[Desktop Entry]
