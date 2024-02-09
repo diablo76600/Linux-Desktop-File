@@ -2,7 +2,7 @@
 # Created by Diablo76 on 04/01/2024 -- 00:44:10.
 
 from PyQt6.QtCore import QRect, pyqtSignal
-from PyQt6.QtWidgets import QCheckBox, QDialog, QGridLayout, QPushButton, QWidget
+from PyQt6.QtWidgets import QCheckBox, QDialog, QGridLayout, QPushButton, QWidget, QMessageBox
 
 
 class UbuntuDesktopFileCategories(QDialog):
@@ -52,18 +52,22 @@ class UbuntuDesktopFileCategories(QDialog):
         self.pushButton = QPushButton(self)
         self.pushButton.setText("Ok")
         self.pushButton.setGeometry(QRect(int((self.width() / 2) - 34), 168, 68, 32))
-        self.pushButton.clicked.connect(self.get_type_categories)
+        self.pushButton.clicked.connect(self.close)
 
-    def get_type_categories(self) -> None:
+    def _get_type_categories(self) -> list[str]:
         # Retrieve the selected categories from the checkboxes
-        list_categories = [
+        return [
             check_box.text()
             for check_box in self.gridLayoutWidget.findChildren(QCheckBox)
             if check_box.isChecked()
         ]
-
+        
+    def close(self) -> None:
+        list_categories = self._get_type_categories()
+        # Remove the 'if' block if list_categories can be empty.
+        if not list_categories:
+            QMessageBox.warning(self, "Error", "Please select at least one category.")
+            return
         # Emit the selected categories as a signal
         self.categories_selected.emit(list_categories)
-
-        # Close the dialog window
-        self.close()
+        super().close()
