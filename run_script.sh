@@ -1,2 +1,2 @@
 #!/bin/bash
-python3 ubuntu_desktop_file_main.py
+python3 udf_main.py
