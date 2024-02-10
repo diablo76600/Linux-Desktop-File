@@ -14,18 +14,19 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import QRect
 
-__version__ = "1.0.7"
+__version__ = "1.0.8"
 
 
-class DesktopFileView(QMainWindow):
+class UbuntuDesktopFileView(QMainWindow):
+    '''Manage the Ubuntu Desktop File View.
+
+    This class represents the main window for the Ubuntu Desktop File.
+    It provides various widgets for entering and displaying information related to the desktop file.'''
+
     def __init__(self):
         super().__init__()
         self.title = "Ubuntu Desktop File"
         self.setWindowTitle(f"{self.title} {__version__}")
-        self.setup_ui()
-
-    def setup_ui(self):
-        # Set up the user interface by creating and positioning various widgets
         button_icon = QIcon("Assets/Images/loupe.png")
         button_categories = QIcon("Assets/Images/directory_icon.png")
         self.setFixedSize(842, 390)
@@ -143,4 +144,5 @@ class DesktopFileView(QMainWindow):
         self.pushButton_quit = QPushButton(self)
         self.pushButton_quit.setText("Quit")
         self.pushButton_quit.setGeometry(QRect(758, 352, 68, 32))
-
+        # Show Ui
+        self.show()
