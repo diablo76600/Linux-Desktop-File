@@ -23,56 +23,28 @@ Attributes:
     udf_model: The model component for the Ubuntu Desktop File.
 '''
 
-    def __init__(self):
+    def __init__(self, app: QApplication):
+        self.app = app
         self.udf_view = UbuntuDesktopFileView()
         self.udf_categories_view = UbuntuDesktopFileCategoriesView()
+        self.udf_model = UbuntuDesktopFileModel()
         self.udf_controller = UbuntuDesktopFileController(
-            self.udf_view, self.udf_categories_view
+            self.udf_view, self.udf_categories_view, self.udf_model
         )
-        self.udf_model = UbuntuDesktopFileModel(self.udf_view, self.udf_controller)
-        self._connect_signals(
-            {
-                self.udf_view.pushButton_exec: self.select_exec_or_python_file,
-                self.udf_view.pushButton_icon: self.set_icon,
-                self.udf_view.pushButton_save: self.save_desktop_file,
-                self.udf_view.pushButton_quit: QApplication.exit,
-                self.udf_view.pushButton_categories: self.exec_categories,
-                self.udf_view.checkBox_terminal: self.update_checkbox_text,
-                self.udf_view.checkBox_startup: self.update_checkbox_text,
-                self.udf_view.checkBox_directory: self.set_path_directory,
-                self.udf_view.checkBox_python: self.update_python_label,
-            }
-        )
+        self.connect_signals()
 
-    def _connect_signals(self, widgets: dict) -> None:
-        '''Connect widgets using the mapping.'''
-        for widget, slot in widgets.items():
-            widget.clicked.connect(slot)
 
-    def select_exec_or_python_file(self):
-        '''Select the executable or Python file based on the checkbox state.'''
-        self.udf_controller.select_exec_or_python_file()
-
-    def set_icon(self):
-        '''This method is responsible for setting the icon.'''
-        self.udf_controller.set_icon()
-
-    def save_desktop_file(self):
-        '''This method is responsible for saving the desktop file.'''
-        self.udf_model.save_desktop_file()
-
-    def exec_categories(self):
-        '''This method is responsible for executing the categories.'''
-        self.udf_controller.exec_categories()
-
-    def update_checkbox_text(self):
-        '''This method is responsible for updating the text of the checkbox based on its state.'''
-        self.udf_controller.update_checkbox_text()
-
-    def set_path_directory(self):
-        '''This method is responsible for setting the path directory.'''
-        self.udf_controller.set_path_directory()
-
-    def update_python_label(self):
-        '''Update the label and style based on the Python checkbox state.'''
-        self.udf_controller.update_python_label()
+    def connect_signals(self):
+        signal_connections = {
+            self.udf_view.pushButton_exec: self.udf_controller.select_executable_or_python_file,
+            self.udf_view.pushButton_icon: self.udf_controller.set_icon,
+            self.udf_view.pushButton_save: self.udf_controller.save_desktop_file,
+            self.udf_view.pushButton_quit: self.app.exit,
+            self.udf_view.pushButton_categories: self.udf_categories_view.exec,
+            self.udf_view.checkBox_terminal: self.udf_controller.update_checkbox_text,
+            self.udf_view.checkBox_startup: self.udf_controller.update_checkbox_text,
+            self.udf_view.checkBox_directory: self.udf_controller.set_path_directory,
+            self.udf_view.checkBox_python: self.udf_controller.update_python_label,
+        }
+        for signal, slot in signal_connections.items():
+            signal.clicked.connect(slot)
