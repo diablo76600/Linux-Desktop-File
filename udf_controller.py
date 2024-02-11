@@ -6,28 +6,49 @@ import os
 
 from udf_ui_view import UbuntuDesktopFileView
 from udf_ui_categories_view import UbuntuDesktopFileCategoriesView
+from udf_model import UbuntuDesktopFileModel
 
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox, QCheckBox
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QFileDialog
 
 
 class UbuntuDesktopFileController:
-    '''Manage the Ubuntu Desktop File Controller.
+    '''Controller class for managing the Ubuntu Desktop File.
 
-This class is responsible for managing the Ubuntu Desktop File Controller.
-It handles the logic and coordination between the view, categories view,
-and model components.
+    This class provides methods for handling user interactions and managing the data flow between the view and model components of the Ubuntu Desktop File application.
 
-Attributes:
-    udf_view: The view component for the Ubuntu Desktop File.
-    udf_categories_view: The categories view component for the Ubuntu Desktop File.'''
+    Args:
+        udf_view: The view component for the Ubuntu Desktop File.
+        udf_categories_view: The view component for the Ubuntu Desktop File Categories.
+        udf_model: The model component for the Ubuntu Desktop File.'''
 
-    def __init__(self, udf_view: UbuntuDesktopFileView, udf_categories_view: UbuntuDesktopFileCategoriesView) -> None:
+    def __init__(self, udf_view: UbuntuDesktopFileView, udf_categories_view: UbuntuDesktopFileCategoriesView, udf_model: UbuntuDesktopFileModel) -> None:
         self.udf_view = udf_view
         self.udf_categories_view = udf_categories_view
+        self.udf_model = udf_model
         self.udf_categories_view.categories_selected.connect(self.update_categories)
         self.udf_view.lineEdit_exec.textChanged.connect(self.update_application_name)
+
+    def get_all_data(self) -> dict:
+        """Get all the entered data from the widgets."""
+        return {
+            "Categories": self.udf_view.lineEdit_categories.text(),
+            "Comment": self.udf_view.lineEdit_comment.text(),
+            "Exec": self.udf_view.lineEdit_exec.text(),
+            "GenericName": self.udf_view.lineEdit_generic_name.text(),
+            "Icon": self.udf_view.lineEdit_icon.text(),
+            "Name": self.udf_view.lineEdit_name.text(),
+            "Path": (
+                os.path.dirname(self.udf_view.lineEdit_exec.text())
+                if self.udf_view.checkBox_directory.isChecked()
+                else ""
+            ),
+            "StartupNotify": str(self.udf_view.checkBox_startup.isChecked()).lower(),
+            "Terminal": str(self.udf_view.checkBox_terminal.isChecked()).lower(),
+            "Type": self.udf_view.lineEdit_type.text(),
+            "Version": self.udf_view.lineEdit_version.text(),
+        }
 
     def update_categories(self, list_categories: list) -> None:
         '''Update the categories in the view based on the selected categories.'''
@@ -72,7 +93,7 @@ Attributes:
 
     def update_checkbox_text(self) -> None:
         '''Update the text of the checkbox based on its state.'''
-        checkbox = self.udf_view.sender()
+        checkbox: QCheckBox = self.udf_view.sender()
         if checkbox == self.udf_view.checkBox_directory:
             checkbox.setText(
                 os.path.dirname(self.udf_view.lineEdit_exec.text())
@@ -96,35 +117,26 @@ Attributes:
             return file
         return None
 
-    def select_exec_or_python_file(self) -> None:
+    def is_python_file(self) -> None:
         '''Select the executable or Python file based on the checkbox state.'''
-        if self.udf_view.checkBox_python.isChecked():
-            self.get_exec_file(python=True)
-        else:
-            self.get_exec_file(python=False)
-        self.set_path_directory()
+        return self.udf_view.checkBox_python.isChecked()
 
-    def get_exec_file(self, python: bool) -> None:
+
+    def select_executable_or_python_file(self) -> None:
         '''Open a file dialog to select the executable or Python file.'''
-        caption = (
-            "Select a Python file."
-            if python
-            else "Select an Executable file."
-        )
-        py_filter = "*.py" if python else ""
+        self.udf_view.lineEdit_exec.clear()
+        caption = "Select a Python file." if self.is_python_file() else "Select an Executable file."
+        py_filter = "*.py" if self.is_python_file() else ""
         if file := self.select_file_dialog(caption=caption, filter=py_filter):
-            if not python and os.access(file, os.X_OK):
-                self.udf_view.lineEdit_exec.setText(file)
-            elif python:
-                self.udf_view.lineEdit_exec.setText(file)
-            else:
+            if not self.is_python_file() and not os.access(file, os.X_OK):
                 self.display_message(
                     self.udf_view.title,
                     f"{file} <font color='red'>is not executable</font>.",
                     "information",
                 )
-        else:
-            self.udf_view.lineEdit_exec.clear()
+            else:
+                self.udf_view.lineEdit_exec.setText(file)
+
 
     def set_icon(self) -> None:
         '''Open a file dialog to select the icon file.'''
@@ -144,6 +156,34 @@ Attributes:
     def exec_categories(self) -> None:
         '''Execute the categories view.'''
         self.udf_categories_view.exec()
+
+    def save_desktop_file(self) -> None:
+        """Save the desktop file with the entered data."""
+        if not self.check_widgets():
+            return
+        datas = self.get_all_data()
+        self.modify_exec_value(datas)
+        if destination := self.choose_destination():
+            desktop_file_data = self.udf_model.generate_desktop_file_data(datas)
+            state, message = self.udf_model.write_desktop_file(destination, desktop_file_data)
+            message_type = "information" if state else "warning"
+            self.display_message(self.udf_view.title, message, message_type)
+
+    def modify_exec_value(self, datas: dict) -> None:
+        """Modify the 'Exec' value in the data dictionary if the checkbox is checked."""
+        if self.udf_view.checkBox_python.isChecked():
+            datas["Exec"] = f"python3 {datas['Exec']}"
+
+    def choose_destination(self) -> str:
+        """Prompt the user to choose a destination to save the file."""
+        file_name = f"{self.udf_view.lineEdit_name.text()}.desktop"
+        destination, _ = QFileDialog.getSaveFileName(
+            self.udf_view,
+            "Save Desktop file",
+            file_name
+        )
+        return destination
+
 
     def update_python_label(self) -> None:
         '''Update the label and style based on the Python checkbox state.'''

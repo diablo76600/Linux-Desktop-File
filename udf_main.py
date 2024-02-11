@@ -13,5 +13,5 @@ if __name__ == "__main__":
         and the UbuntuDesktopFileManager, 
         and starts the application event loop.'''
     app = QApplication(sys.argv)
-    manager = UbuntuDesktopFileManager()
+    manager = UbuntuDesktopFileManager(app)
     sys.exit(app.exec())
