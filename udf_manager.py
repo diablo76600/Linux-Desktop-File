@@ -35,6 +35,7 @@ Attributes:
 
 
     def connect_signals(self):
+        '''Connect signals to their respective slots.'''
         signal_connections = {
             self.udf_view.pushButton_exec: self.udf_controller.select_executable_or_python_file,
             self.udf_view.pushButton_icon: self.udf_controller.set_icon,
