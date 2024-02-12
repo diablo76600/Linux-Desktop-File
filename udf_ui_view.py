@@ -18,10 +18,10 @@ __version__ = "1.0.8"
 
 
 class UbuntuDesktopFileView(QMainWindow):
-    '''Manage the Ubuntu Desktop File View.
+    """Manage the Ubuntu Desktop File View.
 
     This class represents the main window for the Ubuntu Desktop File.
-    It provides various widgets for entering and displaying information related to the desktop file.'''
+    It provides various widgets for entering and displaying information related to the desktop file."""
 
     def __init__(self):
         super().__init__()

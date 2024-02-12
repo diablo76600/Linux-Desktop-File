@@ -14,14 +14,14 @@ from PyQt6.QtWidgets import QFileDialog
 
 
 class UbuntuDesktopFileController:
-    '''Controller class for managing the Ubuntu Desktop File.
+    """Controller class for managing the Ubuntu Desktop File.
 
     This class provides methods for handling user interactions and managing the data flow between the view and model components of the Ubuntu Desktop File application.
 
     Args:
         udf_view: The view component for the Ubuntu Desktop File.
         udf_categories_view: The view component for the Ubuntu Desktop File Categories.
-        udf_model: The model component for the Ubuntu Desktop File.'''
+        udf_model: The model component for the Ubuntu Desktop File."""
 
     def __init__(self, udf_view: UbuntuDesktopFileView, udf_categories_view: UbuntuDesktopFileCategoriesView, udf_model: UbuntuDesktopFileModel) -> None:
         self.udf_view = udf_view
@@ -51,12 +51,12 @@ class UbuntuDesktopFileController:
         }
 
     def update_categories(self, list_categories: list) -> None:
-        '''Update the categories in the view based on the selected categories.'''
+        """Update the categories in the view based on the selected categories."""
         self.udf_view.lineEdit_categories.setText(";".join(list_categories))
 
     @staticmethod
     def display_message(title: str, text: str, type: str) -> None:
-        '''Display a message box with the specified title, text, and type.'''
+        """Display a message box with the specified title, text, and type."""
         if type == "warning":
             QMessageBox.warning(None, title, text)
         else:
@@ -64,18 +64,18 @@ class UbuntuDesktopFileController:
 
     @staticmethod
     def get_application_name(exec_path: str) -> str:
-        '''Extract the application name from the provided executable path.'''
+        """Extract the application name from the provided executable path."""
         return os.path.splitext(os.path.basename(exec_path))[0]
     
     def update_application_name(self) -> None:
-        '''Update the application name based on the entered executable path.'''
+        """Update the application name based on the entered executable path."""
         application_name: str = self.get_application_name(
             self.udf_view.lineEdit_exec.text()
         )
         self.udf_view.lineEdit_name.setText(application_name)
 
     def check_widgets(self) -> bool:
-        '''Check if all required widgets have valid values.'''
+        """Check if all required widgets have valid values."""
         if not self.udf_view.lineEdit_name.text():
             self.display_message(
                 self.udf_view.title, "Please enter an Application Name.", "information"
@@ -92,7 +92,7 @@ class UbuntuDesktopFileController:
         return True
 
     def update_checkbox_text(self) -> None:
-        '''Update the text of the checkbox based on its state.'''
+        """Update the text of the checkbox based on its state."""
         checkbox: QCheckBox = self.udf_view.sender()
         if checkbox == self.udf_view.checkBox_directory:
             checkbox.setText(
@@ -104,7 +104,7 @@ class UbuntuDesktopFileController:
             checkbox.setText(str(checkbox.isChecked()))
 
     def set_path_directory(self) -> None:
-        '''Set the text of the directory checkbox based on its state.'''
+        """Set the text of the directory checkbox based on its state."""
         self.udf_view.checkBox_directory.setText(
             os.path.dirname(self.udf_view.lineEdit_exec.text())
             if self.udf_view.checkBox_directory.isChecked()
@@ -112,23 +112,22 @@ class UbuntuDesktopFileController:
         )
 
     def select_file_dialog(self, caption: str, filter: str) -> str|None:
-        '''Open a file dialog to select a file.'''
+        """Open a file dialog to select a file."""
         if file := QFileDialog.getOpenFileName(parent=self.udf_view, caption=caption, filter=filter)[0]:
             return file
         return None
 
-    def is_python_file(self) -> None:
-        '''Select the executable or Python file based on the checkbox state.'''
-        return self.udf_view.checkBox_python.isChecked()
-
-
     def select_executable_or_python_file(self) -> None:
-        '''Open a file dialog to select the executable or Python file.'''
+        """Open a file dialog to select the executable or Python file."""
         self.udf_view.lineEdit_exec.clear()
-        caption = "Select a Python file." if self.is_python_file() else "Select an Executable file."
-        py_filter = "*.py" if self.is_python_file() else ""
+        if is_python := self.udf_view.checkBox_python.isChecked():
+            caption = "Select a Python file."
+            py_filter = "*.py"
+        else:
+            caption = "Select an Executable file."
+            py_filter = ""
         if file := self.select_file_dialog(caption=caption, filter=py_filter):
-            if not self.is_python_file() and not os.access(file, os.X_OK):
+            if not is_python and not os.access(file, os.X_OK):
                 self.display_message(
                     self.udf_view.title,
                     f"{file} <font color='red'>is not executable</font>.",
@@ -139,7 +138,7 @@ class UbuntuDesktopFileController:
 
 
     def set_icon(self) -> None:
-        '''Open a file dialog to select the icon file.'''
+        """Open a file dialog to select the icon file and display it."""
         if icon_file := self.select_file_dialog(caption="Select Icon file.", filter=""):
             pixmap = QPixmap(icon_file)
             if pixmap.isNull():
@@ -154,7 +153,7 @@ class UbuntuDesktopFileController:
                 self.udf_view.label_icon_application.setPixmap(pixmap)
 
     def exec_categories(self) -> None:
-        '''Execute the categories view.'''
+        """Execute the categories view."""
         self.udf_categories_view.exec()
 
     def save_desktop_file(self) -> None:
@@ -186,7 +185,7 @@ class UbuntuDesktopFileController:
 
 
     def update_python_label(self) -> None:
-        '''Update the label and style based on the Python checkbox state.'''
+        """Update the label and style based on the Python checkbox state."""
         self.udf_view.lineEdit_exec.clear()
         if self.udf_view.checkBox_python.isChecked():
             self.udf_view.label_exec.setText("Python File :")

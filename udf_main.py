@@ -9,9 +9,9 @@ from udf_manager import UbuntuDesktopFileManager
 
 
 if __name__ == "__main__":
-    '''This script initializes the QApplication 
+    """This script initializes the QApplication 
         and the UbuntuDesktopFileManager, 
-        and starts the application event loop.'''
+        and starts the application event loop."""
     app = QApplication(sys.argv)
     manager = UbuntuDesktopFileManager(app)
     sys.exit(app.exec())

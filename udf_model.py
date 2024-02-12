@@ -3,7 +3,7 @@
 
 
 class UbuntuDesktopFileModel:
-    '''Manage the Ubuntu Desktop File Model.
+    """Manage the Ubuntu Desktop File Model.
 
     This class is responsible for managing the Ubuntu Desktop File Model.
     It provides methods for getting all the entered data from the widgets,
@@ -12,7 +12,7 @@ class UbuntuDesktopFileModel:
 
     Attributes:
         udf_view: The view component for the Ubuntu Desktop File.
-        udf_controller: The controller component for the Ubuntu Desktop File.'''
+        udf_controller: The controller component for the Ubuntu Desktop File."""
 
 
     @staticmethod

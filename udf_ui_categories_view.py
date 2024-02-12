@@ -6,13 +6,13 @@ from PyQt6.QtWidgets import QCheckBox, QDialog, QGridLayout, QPushButton, QWidge
 
 
 class UbuntuDesktopFileCategoriesView(QDialog):
-    '''Manage the Ubuntu Desktop File Categories View.
+    """Manage the Ubuntu Desktop File Categories View.
 
     This class represents the dialog window for selecting categories. 
     It provides checkboxes for predefined categories and emits a signal with the selected categories.
 
     Attributes:
-        categories_selected: A signal emitted when categories are selected.'''
+        categories_selected: A signal emitted when categories are selected."""
 
     categories_selected = pyqtSignal(list)
 

@@ -11,7 +11,7 @@ from PyQt6.QtWidgets import QApplication
 
 
 class UbuntuDesktopFileManager:
-    '''Manage the Ubuntu Desktop File Manager.
+    """Manage the Ubuntu Desktop File Manager.
 
 This class is responsible for managing the Ubuntu Desktop File Manager. 
 It initializes the necessary components and connects signals to their respective slots.
@@ -21,7 +21,7 @@ Attributes:
     udf_categories_view: The categories view component for the Ubuntu Desktop File.
     udf_controller: The controller component for the Ubuntu Desktop File.
     udf_model: The model component for the Ubuntu Desktop File.
-'''
+"""
 
     def __init__(self, app: QApplication):
         self.app = app
@@ -35,7 +35,7 @@ Attributes:
 
 
     def connect_signals(self):
-        '''Connect signals to their respective slots.'''
+        """Connect signals to their respective slots."""
         signal_connections = {
             self.udf_view.pushButton_exec: self.udf_controller.select_executable_or_python_file,
             self.udf_view.pushButton_icon: self.udf_controller.set_icon,
