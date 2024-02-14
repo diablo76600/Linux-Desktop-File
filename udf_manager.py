@@ -2,10 +2,10 @@
 # Created by Diablo76 on 06/01/2024 -- 15:17:22.
 
 
-from udf_ui_view import UbuntuDesktopFileView
-from udf_ui_categories_view import UbuntuDesktopFileCategoriesView
-from udf_controller import UbuntuDesktopFileController
-from udf_model import UbuntuDesktopFileModel
+from udf_ui_view import UbuntuDesktopFileView as UdfView
+from udf_ui_categories_view import UbuntuDesktopFileCategoriesView as UdfCategoriesView
+from udf_controller import UbuntuDesktopFileController as UdfController
+from udf_model import UbuntuDesktopFileModel as UdfModel
 
 from PyQt6.QtWidgets import QApplication
 
@@ -25,10 +25,10 @@ Attributes:
 
     def __init__(self, app: QApplication):
         self.app = app
-        self.udf_view = UbuntuDesktopFileView()
-        self.udf_categories_view = UbuntuDesktopFileCategoriesView()
-        self.udf_model = UbuntuDesktopFileModel()
-        self.udf_controller = UbuntuDesktopFileController(
+        self.udf_view = UdfView()
+        self.udf_categories_view = UdfCategoriesView()
+        self.udf_model = UdfModel()
+        self.udf_controller = UdfController(
             self.udf_view, self.udf_categories_view, self.udf_model
         )
         self.connect_signals()

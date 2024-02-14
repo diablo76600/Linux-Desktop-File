@@ -4,9 +4,9 @@
 
 import os
 
-from udf_ui_view import UbuntuDesktopFileView
-from udf_ui_categories_view import UbuntuDesktopFileCategoriesView
-from udf_model import UbuntuDesktopFileModel
+from udf_ui_view import UbuntuDesktopFileView as UdfView
+from udf_ui_categories_view import UbuntuDesktopFileCategoriesView as UdfCategoriesView
+from udf_model import UbuntuDesktopFileModel as UdfModel
 
 from PyQt6.QtWidgets import QMessageBox, QCheckBox
 from PyQt6.QtGui import QPixmap
@@ -23,7 +23,7 @@ class UbuntuDesktopFileController:
         udf_categories_view: The view component for the Ubuntu Desktop File Categories.
         udf_model: The model component for the Ubuntu Desktop File."""
 
-    def __init__(self, udf_view: UbuntuDesktopFileView, udf_categories_view: UbuntuDesktopFileCategoriesView, udf_model: UbuntuDesktopFileModel) -> None:
+    def __init__(self, udf_view: UdfView, udf_categories_view: UdfCategoriesView, udf_model: UdfModel) -> None:
         self.udf_view = udf_view
         self.udf_categories_view = udf_categories_view
         self.udf_model = udf_model
