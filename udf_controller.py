@@ -69,6 +69,8 @@ class UbuntuDesktopFileController:
     
     def update_application_name(self) -> None:
         """Update the application name based on the entered executable path."""
+        if self.udf_view.lineEdit_name.text():
+            return
         application_name: str = self.get_application_name(
             self.udf_view.lineEdit_exec.text()
         )
