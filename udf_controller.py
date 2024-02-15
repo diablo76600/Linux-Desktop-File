@@ -9,8 +9,9 @@ from udf_ui_categories_view import UbuntuDesktopFileCategoriesView as UdfCategor
 from udf_model import UbuntuDesktopFileModel as UdfModel
 
 from PyQt6.QtWidgets import QMessageBox, QCheckBox
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QFontMetrics
 from PyQt6.QtWidgets import QFileDialog
+from PyQt6.QtCore import Qt
 
 
 class UbuntuDesktopFileController:
@@ -142,13 +143,12 @@ class UbuntuDesktopFileController:
                 file = self.truncate_text(file)
                 self.udf_view.lineEdit_exec.setText(file)
 
-    @staticmethod
-    def truncate_text(text: str) -> str:
-        """Truncates text to 75 characters and adds ellipsis if text is longer than 75 characters."""
-        max_length = 75
-        if len(text) >= max_length:
-            return f"{text[:max_length//2]}...{text[-max_length//2:]}"
-        return text
+    def truncate_text(self, text: str) -> str:
+        """Truncates text to fit within the width of lineEdit_exec, adding ellipsis if text is longer."""
+        font_metrics = QFontMetrics(self.udf_view.lineEdit_exec.font())
+        return font_metrics.elidedText(
+            text, Qt.TextElideMode.ElideMiddle, self.udf_view.lineEdit_exec.width()
+        )
 
     def set_icon(self) -> None:
         """Open a file dialog to select the icon file and display it."""
