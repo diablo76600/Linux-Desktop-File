@@ -115,9 +115,9 @@ class UbuntuDesktopFileController:
             else ""
         )
 
-    def select_file_dialog(self, caption: str, filter_ext: str) -> str | None:
+    def select_file_dialog(self, caption: str, filter: str) -> str | None:
         """Open a file dialog to select a file."""
-        if file := QFileDialog.getOpenFileName(parent=self.udf_view, caption=caption, filter=filter_ext)[0]:
+        if file := QFileDialog.getOpenFileName(parent=self.udf_view, caption=caption, filter=filter)[0]:
             return file
         return None
 
@@ -126,11 +126,11 @@ class UbuntuDesktopFileController:
         self.udf_view.lineEdit_exec.clear()
         if is_python := self.udf_view.checkBox_python.isChecked():
             caption = "Select a Python file."
-            filter_ext = "*.py"
+            filter = "*.py"
         else:
             caption = "Select an Executable file."
-            filter_ext = ""
-        if file := self.select_file_dialog(caption=caption, filter=filter_ext):
+            filter = ""
+        if file := self.select_file_dialog(caption=caption, filter=filter):
             if not is_python and not os.access(file, os.X_OK):
                 self.display_message(
                     self.udf_view.title,
