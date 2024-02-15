@@ -8,11 +8,9 @@ from udf_ui_view import UbuntuDesktopFileView as UdfView
 from udf_ui_categories_view import UbuntuDesktopFileCategoriesView as UdfCategoriesView
 from udf_model import UbuntuDesktopFileModel as UdfModel
 
-from PyQt6.QtWidgets import QMessageBox, QCheckBox, QLineEdit
+from PyQt6.QtWidgets import QMessageBox, QCheckBox, QLineEdit, QFileDialog
 from PyQt6.QtGui import QPixmap, QFontMetrics
-from PyQt6.QtWidgets import QFileDialog
 from PyQt6.QtCore import Qt
-
 
 class UbuntuDesktopFileController:
     """Controller class for managing the Ubuntu Desktop File.
@@ -127,27 +125,28 @@ class UbuntuDesktopFileController:
         self.udf_view.lineEdit_exec.clear()
         if is_python := self.udf_view.checkBox_python.isChecked():
             caption = "Select a Python file."
-            filter_ext = "*.py"
+            file_ext = "*.py"
         else:
             caption = "Select an Executable file."
-            filter_ext = ""
-        if file := self.select_file_dialog(caption=caption, filter=filter_ext):
-            if not is_python and not os.access(file, os.X_OK):
+            file_ext = ""
+        if file_path := self.select_file_dialog(caption=caption, filter=file_ext):
+            if not is_python and not os.access(file_path, os.X_OK):
                 self.display_message(
                     self.udf_view.title,
-                    f"{file} <font color='red'>is not executable</font>.",
+                    f"{file_path} <font color='red'>is not executable</font>.",
                     "information",
                 )
             else:
-                self.udf_view.lineEdit_exec.setProperty("original_text", file)
-                file = self.truncate_text(self.udf_view.lineEdit_exec, file)
-                self.udf_view.lineEdit_exec.setText(file)
+                self.udf_view.lineEdit_exec.setProperty("original_text", file_path)
+                file_path = self.truncate_text(self.udf_view.lineEdit_exec, file_path)
+                self.udf_view.lineEdit_exec.setText(file_path)
 
-    def truncate_text(self, widget: QLineEdit, text: str) -> str:
-        """Truncates text to fit within the width of lineEdit_exec, adding ellipsis if text is longer."""
+    def truncate_text(self, widget: QLineEdit, file_path: str) -> str:
+        """Truncates text to fit within the width of QLineEdit, 
+            adding ellipsis if text is longer."""
         font_metrics = QFontMetrics(widget.font())
         return font_metrics.elidedText(
-            text, Qt.TextElideMode.ElideMiddle, widget.width()
+            file_path, Qt.TextElideMode.ElideMiddle, widget.width()
         )
 
     def set_icon(self) -> None:
@@ -163,7 +162,7 @@ class UbuntuDesktopFileController:
                 self.udf_view.lineEdit_icon.clear()
             else:
                 self.udf_view.lineEdit_icon.setProperty("original_text", icon_file)
-                icon_file = self.truncate_text(self.udf_view.lineEdit_icon,icon_file)
+                icon_file = self.truncate_text(self.udf_view.lineEdit_icon, icon_file)
                 self.udf_view.lineEdit_icon.setText(icon_file)
                 self.udf_view.label_icon_application.setPixmap(pixmap)
 
