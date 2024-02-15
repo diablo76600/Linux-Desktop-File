@@ -37,9 +37,9 @@ class UbuntuDesktopFileController:
         return {
             "Categories": self.udf_view.lineEdit_categories.text(),
             "Comment": self.udf_view.lineEdit_comment.text(),
-            "Exec": self.udf_view.lineEdit_exec.text(),
+            "Exec": self.udf_view.lineEdit_exec.property("original_text"),
             "GenericName": self.udf_view.lineEdit_generic_name.text(),
-            "Icon": self.udf_view.lineEdit_icon.text(),
+            "Icon": self.udf_view.lineEdit_icon.property("original_text"),
             "Name": self.udf_view.lineEdit_name.text(),
             "Path": (
                 os.path.dirname(self.udf_view.lineEdit_exec.text())
@@ -138,7 +138,17 @@ class UbuntuDesktopFileController:
                     "information",
                 )
             else:
+                self.udf_view.lineEdit_exec.setProperty("original_text", file)
+                file = self.truncate_text(file)
                 self.udf_view.lineEdit_exec.setText(file)
+
+    @staticmethod
+    def truncate_text(text: str) -> str:
+        """Truncates text to 75 characters and adds ellipsis if text is longer than 75 characters."""
+        max_length = 75
+        if len(text) >= max_length:
+            return f"{text[:max_length//2]}...{text[-max_length//2:]}"
+        return text
 
     def set_icon(self) -> None:
         """Open a file dialog to select the icon file and display it."""
@@ -152,6 +162,8 @@ class UbuntuDesktopFileController:
                 )
                 self.udf_view.lineEdit_icon.clear()
             else:
+                self.udf_view.lineEdit_icon.setProperty("original_text", icon_file)
+                icon_file = self.truncate_text(icon_file)
                 self.udf_view.lineEdit_icon.setText(icon_file)
                 self.udf_view.label_icon_application.setPixmap(pixmap)
 
