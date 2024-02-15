@@ -16,7 +16,9 @@ from PyQt6.QtWidgets import QFileDialog
 class UbuntuDesktopFileController:
     """Controller class for managing the Ubuntu Desktop File.
 
-    This class provides methods for handling user interactions and managing the data flow between the view and model components of the Ubuntu Desktop File application.
+    This class provides methods for handling user interactions
+    and managing the data flow between the view
+    and model components of the Ubuntu Desktop File application.
 
     Args:
         udf_view: The view component for the Ubuntu Desktop File.
@@ -30,7 +32,7 @@ class UbuntuDesktopFileController:
         self.udf_categories_view.categories_selected.connect(self.update_categories)
         self.udf_view.lineEdit_exec.textChanged.connect(self.update_application_name)
 
-    def get_all_data(self) -> dict:
+    def get_entered_data(self) -> dict:
         """Get all the entered data from the widgets."""
         return {
             "Categories": self.udf_view.lineEdit_categories.text(),
@@ -55,9 +57,9 @@ class UbuntuDesktopFileController:
         self.udf_view.lineEdit_categories.setText(";".join(list_categories))
 
     @staticmethod
-    def display_message(title: str, text: str, type: str) -> None:
+    def display_message(title: str, text: str, type_message: str) -> None:
         """Display a message box with the specified title, text, and type."""
-        if type == "warning":
+        if type_message == "warning":
             QMessageBox.warning(None, title, text)
         else:
             QMessageBox.information(None, title, text)
@@ -66,7 +68,7 @@ class UbuntuDesktopFileController:
     def get_application_name(exec_path: str) -> str:
         """Extract the application name from the provided executable path."""
         return os.path.splitext(os.path.basename(exec_path))[0]
-    
+
     def update_application_name(self) -> None:
         """Update the application name based on the entered executable path."""
         if self.udf_view.lineEdit_name.text():
@@ -113,9 +115,9 @@ class UbuntuDesktopFileController:
             else ""
         )
 
-    def select_file_dialog(self, caption: str, filter: str) -> str|None:
+    def select_file_dialog(self, caption: str, filter_ext: str) -> str | None:
         """Open a file dialog to select a file."""
-        if file := QFileDialog.getOpenFileName(parent=self.udf_view, caption=caption, filter=filter)[0]:
+        if file := QFileDialog.getOpenFileName(parent=self.udf_view, caption=caption, filter=filter_ext)[0]:
             return file
         return None
 
@@ -124,11 +126,11 @@ class UbuntuDesktopFileController:
         self.udf_view.lineEdit_exec.clear()
         if is_python := self.udf_view.checkBox_python.isChecked():
             caption = "Select a Python file."
-            py_filter = "*.py"
+            filter_ext = "*.py"
         else:
             caption = "Select an Executable file."
-            py_filter = ""
-        if file := self.select_file_dialog(caption=caption, filter=py_filter):
+            filter_ext = ""
+        if file := self.select_file_dialog(caption=caption, filter=filter_ext):
             if not is_python and not os.access(file, os.X_OK):
                 self.display_message(
                     self.udf_view.title,
@@ -137,7 +139,6 @@ class UbuntuDesktopFileController:
                 )
             else:
                 self.udf_view.lineEdit_exec.setText(file)
-
 
     def set_icon(self) -> None:
         """Open a file dialog to select the icon file and display it."""
@@ -162,18 +163,18 @@ class UbuntuDesktopFileController:
         """Save the desktop file with the entered data."""
         if not self.check_widgets():
             return
-        datas = self.get_all_data()
-        self.modify_exec_value(datas)
+        dict_data = self.get_entered_data()
+        self.modify_exec_value(dict_data)
         if destination := self.choose_destination():
-            desktop_file_data = self.udf_model.generate_desktop_file_data(datas)
+            desktop_file_data = self.udf_model.generate_desktop_file_data(dict_data)
             state, message = self.udf_model.write_desktop_file(destination, desktop_file_data)
             message_type = "information" if state else "warning"
             self.display_message(self.udf_view.title, message, message_type)
 
-    def modify_exec_value(self, datas: dict) -> None:
+    def modify_exec_value(self, data: dict) -> None:
         """Modify the 'Exec' value in the data dictionary if the checkbox is checked."""
         if self.udf_view.checkBox_python.isChecked():
-            datas["Exec"] = f"python3 {datas['Exec']}"
+            data["Exec"] = f"python3 {data['Exec']}"
 
     def choose_destination(self) -> str:
         """Prompt the user to choose a destination to save the file."""
@@ -184,7 +185,6 @@ class UbuntuDesktopFileController:
             file_name
         )
         return destination
-
 
     def update_python_label(self) -> None:
         """Update the label and style based on the Python checkbox state."""

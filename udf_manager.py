@@ -33,7 +33,6 @@ Attributes:
         )
         self.connect_signals()
 
-
     def connect_signals(self):
         """Connect signals to their respective slots."""
         signal_connections = {

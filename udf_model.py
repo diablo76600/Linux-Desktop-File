@@ -9,11 +9,7 @@ class UbuntuDesktopFileModel:
     It provides methods for getting all the entered data from the widgets,
     saving the desktop file with the entered data,
     and generating the data for the desktop file based on the provided data dictionary.
-
-    Attributes:
-        udf_view: The view component for the Ubuntu Desktop File.
-        udf_controller: The controller component for the Ubuntu Desktop File."""
-
+    """
 
     @staticmethod
     def generate_desktop_file_data(data) -> str:

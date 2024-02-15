@@ -58,8 +58,12 @@ class UbuntuDesktopFileCategoriesView(QDialog):
         # Create an "Ok" button and connect its clicked signal to the get_type_categories method
         self.pushButton = QPushButton(self)
         self.pushButton.setText("Ok")
-        self.pushButton.setGeometry(QRect(int((self.width() / 2) - 34), 168, 68, 32))
-        self.pushButton.clicked.connect(self.close)
+        button_x = int((self.width() / 2) - 34)
+        button_y = 168
+        button_width = 68
+        button_height = 32
+        self.pushButton.setGeometry(QRect(button_x, button_y, button_width, button_height))
+        self.pushButton.clicked.connect(self.emit_categories_and_close)
 
     def _get_type_categories(self) -> list[str]:
         # Retrieve the selected categories from the checkboxes
@@ -69,7 +73,7 @@ class UbuntuDesktopFileCategoriesView(QDialog):
             if check_box.isChecked()
         ]
 
-    def close(self) -> None:
+    def emit_categories_and_close(self) -> None:
         list_categories = self._get_type_categories()
         # Emit the selected categories as a signal
         self.categories_selected.emit(list_categories)
