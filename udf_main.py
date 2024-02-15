@@ -1,6 +1,10 @@
 # -*- Coding: utf-8 -*-
 # Created by Diablo76 on 06/01/2024 -- 15:17:22.
 
+"""This script initializes the QApplication 
+        and the UbuntuDesktopFileManager, 
+        and starts the application event loop."""
+
 import sys
 
 from udf_ui_view import UbuntuDesktopFileView as UdfView
@@ -14,15 +18,15 @@ from PyQt6.QtWidgets import QApplication
 class UbuntuDesktopFileManager:
     """Manage the Ubuntu Desktop File Manager.
 
-This class is responsible for managing the Ubuntu Desktop File Manager. 
-It initializes the necessary components and connects signals to their respective slots.
+    This class is responsible for managing the Ubuntu Desktop File Manager.
+    It initializes the necessary components and connects signals to their respective slots.
 
-Attributes:
-    udf_view: The view component for the Ubuntu Desktop File.
-    udf_categories_view: The categories view component for the Ubuntu Desktop File.
-    udf_controller: The controller component for the Ubuntu Desktop File.
-    udf_model: The model component for the Ubuntu Desktop File.
-"""
+    Attributes:
+        udf_view: The view component for the Ubuntu Desktop File.
+        udf_categories_view: The categories view component for the Ubuntu Desktop File.
+        udf_controller: The controller component for the Ubuntu Desktop File.
+        udf_model: The model component for the Ubuntu Desktop File.
+    """
 
     def __init__(self):
         self.app = app
@@ -42,19 +46,16 @@ Attributes:
             self.udf_view.pushButton_save: self.udf_controller.save_desktop_file,
             self.udf_view.pushButton_quit: app.exit,
             self.udf_view.pushButton_categories: self.udf_categories_view.exec,
+            self.udf_view.checkBox_directory: self.udf_controller.update_checkbox_text,
             self.udf_view.checkBox_terminal: self.udf_controller.update_checkbox_text,
             self.udf_view.checkBox_startup: self.udf_controller.update_checkbox_text,
-            self.udf_view.checkBox_directory: self.udf_controller.set_path_directory,
             self.udf_view.checkBox_python: self.udf_controller.update_python_label,
         }
         for signal, slot in signal_connections.items():
             signal.clicked.connect(slot)
-
+        self.udf_view.lineEdit_exec.textChanged.connect(self.udf_controller.update_checkbox_label_directory)
 
 if __name__ == "__main__":
-    """This script initializes the QApplication 
-        and the UbuntuDesktopFileManager, 
-        and starts the application event loop."""
     app = QApplication(sys.argv)
     manager = UbuntuDesktopFileManager()
     sys.exit(app.exec())

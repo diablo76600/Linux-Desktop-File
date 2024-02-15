@@ -41,7 +41,7 @@ class UbuntuDesktopFileController:
             "Icon": self.udf_view.lineEdit_icon.property("original_text"),
             "Name": self.udf_view.lineEdit_name.text(),
             "Path": (
-                os.path.dirname(self.udf_view.lineEdit_exec.text())
+                os.path.dirname(self.udf_view.lineEdit_exec.property("original_text"))
                 if self.udf_view.checkBox_directory.isChecked()
                 else ""
             ),
@@ -106,13 +106,6 @@ class UbuntuDesktopFileController:
         else:
             checkbox.setText(str(checkbox.isChecked()))
 
-    def set_path_directory(self) -> None:
-        """Set the text of the directory checkbox based on its state."""
-        self.udf_view.checkBox_directory.setText(
-            os.path.dirname(self.udf_view.lineEdit_exec.text())
-            if self.udf_view.checkBox_directory.isChecked()
-            else ""
-        )
 
     def select_file_dialog(self, caption: str, filter: str) -> str | None:
         """Open a file dialog to select a file."""
@@ -140,6 +133,10 @@ class UbuntuDesktopFileController:
                 self.udf_view.lineEdit_exec.setProperty("original_text", file_path)
                 file_path = self.truncate_text(self.udf_view.lineEdit_exec, file_path)
                 self.udf_view.lineEdit_exec.setText(file_path)
+
+    def update_checkbox_label_directory(self):
+        if self.udf_view.checkBox_directory.isChecked():
+            self.udf_view.checkBox_directory.setText(os.path.dirname(self.udf_view.lineEdit_exec.text()))
 
     def truncate_text(self, widget: QLineEdit, file_path: str) -> str:
         """Truncates text to fit within the width of QLineEdit, 
