@@ -126,11 +126,11 @@ class UbuntuDesktopFileController:
         self.udf_view.lineEdit_exec.clear()
         if is_python := self.udf_view.checkBox_python.isChecked():
             caption = "Select a Python file."
-            filter = "*.py"
+            filter_ext = "*.py"
         else:
             caption = "Select an Executable file."
-            filter = ""
-        if file := self.select_file_dialog(caption=caption, filter=filter):
+            filter_ext = ""
+        if file := self.select_file_dialog(caption=caption, filter=filter_ext):
             if not is_python and not os.access(file, os.X_OK):
                 self.display_message(
                     self.udf_view.title,
