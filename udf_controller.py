@@ -8,7 +8,7 @@ from udf_ui_view import UbuntuDesktopFileView as UdfView
 from udf_ui_categories_view import UbuntuDesktopFileCategoriesView as UdfCategoriesView
 from udf_model import UbuntuDesktopFileModel as UdfModel
 
-from PyQt6.QtWidgets import QMessageBox, QCheckBox
+from PyQt6.QtWidgets import QMessageBox, QCheckBox, QLineEdit
 from PyQt6.QtGui import QPixmap, QFontMetrics
 from PyQt6.QtWidgets import QFileDialog
 from PyQt6.QtCore import Qt
@@ -140,14 +140,14 @@ class UbuntuDesktopFileController:
                 )
             else:
                 self.udf_view.lineEdit_exec.setProperty("original_text", file)
-                file = self.truncate_text(file)
+                file = self.truncate_text(self.udf_view.lineEdit_exec, file)
                 self.udf_view.lineEdit_exec.setText(file)
 
-    def truncate_text(self, text: str) -> str:
+    def truncate_text(self, widget: QLineEdit, text: str) -> str:
         """Truncates text to fit within the width of lineEdit_exec, adding ellipsis if text is longer."""
-        font_metrics = QFontMetrics(self.udf_view.lineEdit_exec.font())
+        font_metrics = QFontMetrics(widget.font())
         return font_metrics.elidedText(
-            text, Qt.TextElideMode.ElideMiddle, self.udf_view.lineEdit_exec.width()
+            text, Qt.TextElideMode.ElideMiddle, widget.width()
         )
 
     def set_icon(self) -> None:
@@ -163,7 +163,7 @@ class UbuntuDesktopFileController:
                 self.udf_view.lineEdit_icon.clear()
             else:
                 self.udf_view.lineEdit_icon.setProperty("original_text", icon_file)
-                icon_file = self.truncate_text(icon_file)
+                icon_file = self.truncate_text(self.udf_view.lineEdit_icon,icon_file)
                 self.udf_view.lineEdit_icon.setText(icon_file)
                 self.udf_view.label_icon_application.setPixmap(pixmap)
 
