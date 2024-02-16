@@ -38,6 +38,7 @@ class UbuntuDesktopFileManager:
         self.udf_controller.connect_signals()
 
     def run(self) -> NoReturn:
+        """Exit the application event loop."""
         sys.exit(app.exec())
 
 
