@@ -24,12 +24,32 @@ class UbuntuDesktopFileController:
         udf_categories_view: The view component for the Ubuntu Desktop File Categories.
         udf_model: The model component for the Ubuntu Desktop File."""
 
-    def __init__(self, udf_view: UdfView, udf_categories_view: UdfCategoriesView, udf_model: UdfModel) -> None:
+    def __init__(self, app,  udf_view: UdfView, udf_categories_view: UdfCategoriesView, udf_model: UdfModel) -> None:
+        self.app = app
         self.udf_view = udf_view
         self.udf_categories_view = udf_categories_view
         self.udf_model = udf_model
         self.udf_categories_view.categories_selected.connect(self.update_categories)
         self.udf_view.lineEdit_exec.textChanged.connect(self.update_application_name)
+
+    def connect_signals(self):
+        """Connect signals to their respective slots."""
+        signal_connections = {
+            self.udf_view.pushButton_exec: self.select_executable_or_python_file,
+            self.udf_view.pushButton_icon: self.set_icon,
+            self.udf_view.pushButton_save: self.save_desktop_file,
+            self.udf_view.pushButton_quit: self.app.exit,
+            self.udf_view.pushButton_categories: self.udf_categories_view.exec,
+            self.udf_view.checkBox_directory: self.update_checkbox_text,
+            self.udf_view.checkBox_terminal: self.update_checkbox_text,
+            self.udf_view.checkBox_startup: self.update_checkbox_text,
+            self.udf_view.checkBox_python: self.update_python_label,
+        }
+        for signal, slot in signal_connections.items():
+            signal.clicked.connect(slot)
+        self.udf_view.lineEdit_exec.textChanged.connect(
+            self.update_checkbox_label_directory
+        )
 
     def get_entered_data(self) -> dict:
         """Get all the entered data from the widgets."""
@@ -105,7 +125,6 @@ class UbuntuDesktopFileController:
             )
         else:
             checkbox.setText(str(checkbox.isChecked()))
-
 
     def select_file_dialog(self, caption: str, filter: str) -> str | None:
         """Open a file dialog to select a file."""
