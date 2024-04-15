@@ -8,9 +8,10 @@ from udf_ui_view import UbuntuDesktopFileView as UdfView
 from udf_ui_categories_view import UbuntuDesktopFileCategoriesView as UdfCategoriesView
 from udf_model import UbuntuDesktopFileModel as UdfModel
 
-from PyQt6.QtWidgets import QMessageBox, QCheckBox, QLineEdit, QFileDialog
+from PyQt6.QtWidgets import QMessageBox, QLineEdit, QFileDialog
 from PyQt6.QtGui import QPixmap, QFontMetrics
 from PyQt6.QtCore import Qt
+
 
 class UbuntuDesktopFileController:
     """Controller class for managing the Ubuntu Desktop File.
@@ -24,7 +25,7 @@ class UbuntuDesktopFileController:
         udf_categories_view: The view component for the Ubuntu Desktop File Categories.
         udf_model: The model component for the Ubuntu Desktop File."""
 
-    def __init__(self, app,  udf_view: UdfView, udf_categories_view: UdfCategoriesView, udf_model: UdfModel) -> None:
+    def __init__(self, app, udf_view: UdfView, udf_categories_view: UdfCategoriesView, udf_model: UdfModel) -> None:
         self.app = app
         self.udf_view = udf_view
         self.udf_categories_view = udf_categories_view
@@ -76,14 +77,6 @@ class UbuntuDesktopFileController:
         self.udf_view.lineEdit_categories.setText(";".join(list_categories))
 
     @staticmethod
-    def display_message(title: str, text: str, type_message: str) -> None:
-        """Display a message box with the specified title, text, and type."""
-        if type_message == "warning":
-            QMessageBox.warning(None, title, text)
-        else:
-            QMessageBox.information(None, title, text)
-
-    @staticmethod
     def get_application_name(exec_path: str) -> str:
         """Extract the application name from the provided executable path."""
         return os.path.splitext(os.path.basename(exec_path))[0]
@@ -116,7 +109,7 @@ class UbuntuDesktopFileController:
 
     def update_checkbox_text(self) -> None:
         """Update the text of the checkbox based on its state."""
-        checkbox: QCheckBox = self.udf_view.sender()
+        checkbox = self.udf_view.sender()
         if checkbox == self.udf_view.checkBox_directory:
             checkbox.setText(
                 os.path.dirname(self.udf_view.lineEdit_exec.text())
@@ -157,11 +150,13 @@ class UbuntuDesktopFileController:
         if self.udf_view.checkBox_directory.isChecked():
             self.udf_view.checkBox_directory.setText(os.path.dirname(self.udf_view.lineEdit_exec.text()))
 
-    def truncate_text(self, widget: QLineEdit, file_path: str) -> str:
+    @staticmethod
+    def truncate_text(widget: QLineEdit, file_path: str) -> str:
         """Truncates text to fit within the width of QLineEdit, 
             adding ellipsis if text is longer."""
         font_metrics = QFontMetrics(widget.font())
         return font_metrics.elidedText(
+
             file_path, Qt.TextElideMode.ElideMiddle, widget.width()
         )
 
@@ -222,3 +217,12 @@ class UbuntuDesktopFileController:
         else:
             self.udf_view.label_exec.setText("Exec :")
             self.udf_view.label_exec.setStyleSheet("color : None;")
+
+    @staticmethod
+    def display_message(title: str, text: str, type_message: str) -> None:
+        """Display a message box with the specified title, text, and type.
+        """
+        if type_message == "warning":
+            QMessageBox.warning(None, title, text)
+        else:
+            QMessageBox.information(None, title, text)

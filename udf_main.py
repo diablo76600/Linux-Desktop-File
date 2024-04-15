@@ -32,12 +32,13 @@ class UbuntuDesktopFileManager:
         self.udf_view = UdfView()
         self.udf_categories_view = UdfCategoriesView()
         self.udf_model = UdfModel()
-        self.udf_controller = UdfController(app, 
-            self.udf_view, self.udf_categories_view, self.udf_model
-        )
+        self.udf_controller = UdfController(app,
+                                            self.udf_view, self.udf_categories_view, self.udf_model
+                                            )
         self.udf_controller.connect_signals()
 
-    def run(self) -> NoReturn:
+    @staticmethod
+    def run() -> NoReturn:
         """Exit the application event loop."""
         sys.exit(app.exec())
 
