@@ -37,12 +37,12 @@ class UbuntuDesktopFileView(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.title = "Ubuntu Desktop File"
+        self.title = "Linux Desktop File"
         self.setWindowTitle(f"{self.title} {__version__}")
         button_icon = QIcon("Assets/Images/loupe.png")
         button_categories = QIcon("Assets/Images/directory_icon.png")
         self.resize(842, 390)
-        self.setWindowIcon(QIcon("Assets/Images/Ubuntustudio.png"))
+        self.setWindowIcon(QIcon("Assets/Images/Linux.png"))
         self.gridLayoutWidget = QWidget(self)
         self.gridLayoutWidget.setGeometry(QRect(0, 0, 842, 390))
         self.gridLayout = QGridLayout(self.gridLayoutWidget)
