@@ -9,14 +9,14 @@ Dépendance PyQt6 :
 \
 \
 L'interface :  
-![Interface](https://github.com/diablo76600/Ubuntu-Desktop-File/assets/3962168/795caaaa-b517-4aa3-a508-94d3c8661dc4)
+![Interface](https://github.com/diablo76600/Linux-Desktop-File/assets/3962168/795caaaa-b517-4aa3-a508-94d3c8661dc4)
 \
 \
 L'option Categories :  
-![Categories](https://github.com/diablo76600/Ubuntu-Desktop-File/assets/3962168/2d6daffc-0086-422d-a43f-5920f62324de)
+![Categories](https://github.com/diablo76600/Linux-Desktop-File/assets/3962168/2d6daffc-0086-422d-a43f-5920f62324de)
 \
 \
-![InterfaceFinale](https://github.com/diablo76600/Ubuntu-Desktop-File/assets/3962168/71ef9d0c-e7bc-4d46-b94a-22e556440ff7)
+![InterfaceFinale](https://github.com/diablo76600/Linux-Desktop-File/assets/3962168/71ef9d0c-e7bc-4d46-b94a-22e556440ff7)
 \
 \
 Le fichier généré :
@@ -34,11 +34,11 @@ Type=Application
 Version=1.0.6</code></pre>
 
 
-### Ubuntu Desktop File permet également l'execution de fichiers Python avec l'option : 
+### Linux Desktop File permet également l'execution de fichiers Python avec l'option : 
 Launch with Python (par défaut Python3)
 
 L'option activée :  
-![InterfaceFinalePy](https://github.com/diablo76600/Ubuntu-Desktop-File/assets/3962168/924ef60c-89e7-483a-891d-e4417dc7ee35)
+![InterfaceFinalePy](https://github.com/diablo76600/Linux-Desktop-File/assets/3962168/924ef60c-89e7-483a-891d-e4417dc7ee35)
 
 
 Le fichier généré :  
