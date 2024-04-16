@@ -1,4 +1,4 @@
-# Linux Desktop File V1.0.7 (PyQt6)
+# Linux Desktop File V1.0.9 (PyQt6)
 
 ## Linux Desktop File est un utilitaire permettant la création de fichiers de configuration desktop simplifiés.
 ### Il utilise une interface graphique (Qt).
