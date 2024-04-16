@@ -143,14 +143,14 @@ class UbuntuDesktopFileController:
                 )
             else:
                 self.udf_view.lineEdit_exec.setProperty("original_text", file_path)
-                file_path = self.truncate_text(self.udf_view.lineEdit_exec, file_path)
+                #file_path = self.truncate_text(self.udf_view.lineEdit_exec, file_path)
                 self.udf_view.lineEdit_exec.setText(file_path)
 
     def update_checkbox_label_directory(self):
         if self.udf_view.checkBox_directory.isChecked():
             self.udf_view.checkBox_directory.setText(os.path.dirname(self.udf_view.lineEdit_exec.text()))
 
-    @staticmethod
+    '''@staticmethod
     def truncate_text(widget: QLineEdit, file_path: str) -> str:
         """Truncates text to fit within the width of QLineEdit, 
             adding ellipsis if text is longer."""
@@ -158,7 +158,7 @@ class UbuntuDesktopFileController:
         return font_metrics.elidedText(
 
             file_path, Qt.TextElideMode.ElideMiddle, widget.width()
-        )
+        )'''
 
     def set_icon(self) -> None:
         """Open a file dialog to select the icon file and display it."""
@@ -173,7 +173,7 @@ class UbuntuDesktopFileController:
                 self.udf_view.lineEdit_icon.clear()
             else:
                 self.udf_view.lineEdit_icon.setProperty("original_text", icon_file)
-                icon_file = self.truncate_text(self.udf_view.lineEdit_icon, icon_file)
+                #icon_file = self.truncate_text(self.udf_view.lineEdit_icon, icon_file)
                 self.udf_view.lineEdit_icon.setText(icon_file)
                 self.udf_view.label_icon_application.setPixmap(pixmap)
 

@@ -10,11 +10,24 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QCheckBox,
+    QApplication
 )
-from PyQt6.QtGui import QIcon
-from PyQt6.QtCore import QRect
+from PyQt6.QtGui import QIcon, QPainter, QFontMetrics
+from PyQt6.QtCore import QRect, Qt
 
 __version__ = "1.0.8"
+
+class CustomLineEdit(QLineEdit):
+    def __init__(self, parent=None, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+        self.elide_mode = Qt.TextElideMode.ElideMiddle
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        fm = QFontMetrics(self.font())
+        elided_text = fm.elidedText(self.text(), self.elide_mode, self.width())
+        painter.drawText(self.rect(), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, elided_text)
+
 
 
 class UbuntuDesktopFileView(QMainWindow):
@@ -29,11 +42,12 @@ class UbuntuDesktopFileView(QMainWindow):
         self.setWindowTitle(f"{self.title} {__version__}")
         button_icon = QIcon("Assets/Images/loupe.png")
         button_categories = QIcon("Assets/Images/directory_icon.png")
-        self.setFixedSize(842, 390)
-        self.setWindowIcon(QIcon("Assets/Images/Ubuntu_icon.png"))
+        self.resize(842, 390)
+        self.setWindowIcon(QIcon("Assets/Images/Ubuntustudio.png"))
         self.gridLayoutWidget = QWidget(self)
-        self.gridLayoutWidget.setGeometry(QRect(8, 8, 826, 360))
+        self.gridLayoutWidget.setGeometry(QRect(0, 0, 842, 390))
         self.gridLayout = QGridLayout(self.gridLayoutWidget)
+        
         # Widgets Name
         self.label_name = QLabel(self.gridLayoutWidget)
         self.label_name.setText("Application Name :")
@@ -59,22 +73,24 @@ class UbuntuDesktopFileView(QMainWindow):
         self.label_exec = QLabel(self.gridLayoutWidget)
         self.label_exec.setText("Exec :")
         self.gridLayout.addWidget(self.label_exec, 3, 0, 1, 1)
-        self.lineEdit_exec = QLineEdit(self.gridLayoutWidget)
+        self.lineEdit_exec = CustomLineEdit(self.gridLayoutWidget)
         self.lineEdit_exec.setReadOnly(True)
         self.gridLayout.addWidget(self.lineEdit_exec, 3, 2, 1, 1)
         self.pushButton_exec = QPushButton(self.gridLayoutWidget)
         self.pushButton_exec.setIcon(button_icon)
-        self.gridLayout.addWidget(self.pushButton_exec, 3, 3, 1, 1)
+        self.pushButton_exec.setFixedSize(24, 24)
+        self.gridLayout.addWidget(self.pushButton_exec, 3, 3, 1, 1, alignment=Qt.AlignmentFlag.AlignCenter)
         # Widgets Icon
         self.label_icon = QLabel(self.gridLayoutWidget)
         self.label_icon.setText("Icon :")
         self.gridLayout.addWidget(self.label_icon, 4, 0, 1, 1)
-        self.lineEdit_icon = QLineEdit(self.gridLayoutWidget)
+        self.lineEdit_icon = CustomLineEdit(self.gridLayoutWidget)
         self.lineEdit_icon.setReadOnly(True)
         self.gridLayout.addWidget(self.lineEdit_icon, 4, 2, 1, 1)
         self.pushButton_icon = QPushButton(self.gridLayoutWidget)
         self.pushButton_icon.setIcon(button_icon)
-        self.gridLayout.addWidget(self.pushButton_icon, 4, 3, 1, 1)
+        self.pushButton_icon.setFixedSize(24, 24)
+        self.gridLayout.addWidget(self.pushButton_icon, 4, 3, 1, 1, alignment=Qt.AlignmentFlag.AlignCenter)
         # Widgets Type
         self.label_type = QLabel(self.gridLayoutWidget)
         self.label_type.setText("Type :")
@@ -99,7 +115,8 @@ class UbuntuDesktopFileView(QMainWindow):
         self.gridLayout.addWidget(self.lineEdit_categories, 7, 2, 1, 1)
         self.pushButton_categories = QPushButton(self.gridLayoutWidget)
         self.pushButton_categories.setIcon(button_categories)
-        self.gridLayout.addWidget(self.pushButton_categories, 7, 3, 1, 1)
+        self.pushButton_categories.setFixedSize(24, 24)
+        self.gridLayout.addWidget(self.pushButton_categories, 7, 3, 1, 1, alignment=Qt.AlignmentFlag.AlignCenter)
         # Widgets Teminal
         self.label_terminal = QLabel(self.gridLayoutWidget)
         self.label_terminal.setText("Terminal :")
@@ -125,24 +142,28 @@ class UbuntuDesktopFileView(QMainWindow):
         self.gridLayout.addWidget(self.checkBox_startup, 10, 2, 1, 1)
         # Widget Python
         self.label_python = QLabel(self.gridLayoutWidget)
-        self.label_python.setText("Launch with Python : ")
+        self.label_python.setText("Run with Python : ")
         self.gridLayout.addWidget(self.label_python, 11, 0, 1, 1)
         self.checkBox_python = QCheckBox(self.gridLayoutWidget)
         self.checkBox_python.setStyleSheet("color: gray")
         self.gridLayout.addWidget(self.checkBox_python, 11, 2, 1, 1)
         # Widget Label_icon
         self.label_icon_application = QLabel(self)
-        self.label_icon_application.setGeometry(QRect(758, 274, 68, 68))
+        self.label_icon_application.setFixedSize(68, 68)
         self.label_icon_application.setScaledContents(True)
+        self.gridLayout.addWidget(self.label_icon_application, 9, 3, 1, 1)
         # Widget Save
         self.pushButton_save = QPushButton(self)
         self.pushButton_save.setText("Save")
-        self.pushButton_save.setGeometry(
-            QRect(int((self.width() / 2) - 34), 352, 68, 32)
-        )
+        self.pushButton_save.setFixedSize(68, 32)
+        self.gridLayout.addWidget(self.pushButton_save, 12, 2, 1, 1, alignment=Qt.AlignmentFlag.AlignRight)
         # Widget Quit
         self.pushButton_quit = QPushButton(self)
         self.pushButton_quit.setText("Quit")
-        self.pushButton_quit.setGeometry(QRect(758, 352, 68, 32))
+        self.pushButton_quit.setFixedSize(68, 32)
+        self.gridLayout.addWidget(self.pushButton_quit, 12, 3, 1, 1)
         # Show Ui
         self.show()
+
+    def resizeEvent(self, event):
+        self.gridLayoutWidget.resize(self.width(), self.height())
