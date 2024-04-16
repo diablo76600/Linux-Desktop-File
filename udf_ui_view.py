@@ -10,12 +10,11 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QCheckBox,
-    QApplication
 )
 from PyQt6.QtGui import QIcon, QPainter, QFontMetrics
 from PyQt6.QtCore import QRect, Qt
 
-__version__ = "1.0.8"
+__version__ = "1.0.9"
 
 class CustomLineEdit(QLineEdit):
     def __init__(self, parent=None, *args, **kwargs):
