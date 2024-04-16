@@ -8,10 +8,10 @@
 import sys
 from typing import NoReturn
 
-from udf_ui_view import UbuntuDesktopFileView as UdfView
-from udf_ui_categories_view import UbuntuDesktopFileCategoriesView as UdfCategoriesView
-from udf_controller import UbuntuDesktopFileController as UdfController
-from udf_model import UbuntuDesktopFileModel as UdfModel
+from ldf_ui_view import UbuntuDesktopFileView as UdfView
+from ldf_ui_categories_view import UbuntuDesktopFileCategoriesView as UdfCategoriesView
+from ldf_controller import UbuntuDesktopFileController as UdfController
+from ldf_model import UbuntuDesktopFileModel as UdfModel
 
 from PyQt6.QtWidgets import QApplication
 

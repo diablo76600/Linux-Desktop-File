@@ -4,9 +4,9 @@
 
 import os
 
-from udf_ui_view import UbuntuDesktopFileView as UdfView
-from udf_ui_categories_view import UbuntuDesktopFileCategoriesView as UdfCategoriesView
-from udf_model import UbuntuDesktopFileModel as UdfModel
+from ldf_ui_view import UbuntuDesktopFileView as UdfView
+from ldf_ui_categories_view import UbuntuDesktopFileCategoriesView as UdfCategoriesView
+from ldf_model import UbuntuDesktopFileModel as UdfModel
 
 from PyQt6.QtWidgets import QMessageBox, QLineEdit, QFileDialog
 from PyQt6.QtGui import QPixmap, QFontMetrics
