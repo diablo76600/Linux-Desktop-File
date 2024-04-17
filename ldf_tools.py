@@ -2,7 +2,7 @@
 # Created by Diablo76 on 06/01/2024 -- 22:45:06.
 
 
-class UbuntuDesktopFileModel:
+class LinuxDesktopFileTools:
     """Manage the Ubuntu Desktop File Model.
 
     This class is responsible for managing the Ubuntu Desktop File Model.

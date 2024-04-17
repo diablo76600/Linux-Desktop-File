@@ -16,6 +16,7 @@ from PyQt6.QtCore import QRect, Qt
 
 __version__ = "1.0.9"
 
+
 class CustomLineEdit(QLineEdit):
     def __init__(self, parent=None, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
@@ -29,8 +30,8 @@ class CustomLineEdit(QLineEdit):
 
 
 
-class UbuntuDesktopFileView(QMainWindow):
-    """Manage the Ubuntu Desktop File View.
+class LinuxDesktopFileView(QMainWindow):
+    """Manage the Linux Desktop File View.
 
     This class represents the main window for the Ubuntu Desktop File.
     It provides various widgets for entering and displaying information related to the desktop file."""

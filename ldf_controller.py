@@ -4,77 +4,76 @@
 
 import os
 
-from ldf_ui_view import UbuntuDesktopFileView as UdfView
-from ldf_ui_categories_view import UbuntuDesktopFileCategoriesView as UdfCategoriesView
-from ldf_model import UbuntuDesktopFileModel as UdfModel
+from ldf_ui_view import LinuxDesktopFileView as LdfView
+from ldf_ui_categories_view import LinuxDesktopFileCategoriesView as LdfCategoriesView
+from ldf_tools import LinuxDesktopFileTools as LdfTools
 
-from PyQt6.QtWidgets import QMessageBox, QLineEdit, QFileDialog
-from PyQt6.QtGui import QPixmap, QFontMetrics
-from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QMessageBox, QFileDialog
+from PyQt6.QtGui import QPixmap
 
 
-class UbuntuDesktopFileController:
-    """Controller class for managing the Ubuntu Desktop File.
+class LinuxDesktopFileController:
+    """Controller class for managing the Linux Desktop File.
 
     This class provides methods for handling user interactions
     and managing the data flow between the view
-    and model components of the Ubuntu Desktop File application.
+    and model components of the Linux Desktop File application.
 
     Args:
-        udf_view: The view component for the Ubuntu Desktop File.
-        udf_categories_view: The view component for the Ubuntu Desktop File Categories.
-        udf_model: The model component for the Ubuntu Desktop File."""
+        ldf_view: The view component for the Linux Desktop File.
+        ldf_categories_view: The view component for the Linux Desktop File Categories.
+        ldf_tools: The model component for the Linux Desktop File."""
 
-    def __init__(self, app, udf_view: UdfView, udf_categories_view: UdfCategoriesView, udf_model: UdfModel) -> None:
+    def __init__(self, app, ldf_view: LdfView, ldf_categories_view: LdfCategoriesView, ldf_tools: LdfTools) -> None:
         self.app = app
-        self.udf_view = udf_view
-        self.udf_categories_view = udf_categories_view
-        self.udf_model = udf_model
-        self.udf_categories_view.categories_selected.connect(self.update_categories)
-        self.udf_view.lineEdit_exec.textChanged.connect(self.update_application_name)
+        self.ldf_view = ldf_view
+        self.ldf_categories_view = ldf_categories_view
+        self.ldf_tools = ldf_tools
+        self.ldf_categories_view.categories_selected.connect(self.update_categories)
+        self.ldf_view.lineEdit_exec.textChanged.connect(self.update_application_name)
 
     def connect_signals(self):
         """Connect signals to their respective slots."""
         signal_connections = {
-            self.udf_view.pushButton_exec: self.select_executable_or_python_file,
-            self.udf_view.pushButton_icon: self.set_icon,
-            self.udf_view.pushButton_save: self.save_desktop_file,
-            self.udf_view.pushButton_quit: self.app.exit,
-            self.udf_view.pushButton_categories: self.udf_categories_view.exec,
-            self.udf_view.checkBox_directory: self.update_checkbox_text,
-            self.udf_view.checkBox_terminal: self.update_checkbox_text,
-            self.udf_view.checkBox_startup: self.update_checkbox_text,
-            self.udf_view.checkBox_python: self.update_python_label,
+            self.ldf_view.pushButton_exec: self.select_executable_or_python_file,
+            self.ldf_view.pushButton_icon: self.set_icon,
+            self.ldf_view.pushButton_save: self.save_desktop_file,
+            self.ldf_view.pushButton_quit: self.app.exit,
+            self.ldf_view.pushButton_categories: self.ldf_categories_view.exec,
+            self.ldf_view.checkBox_directory: self.update_checkbox_text,
+            self.ldf_view.checkBox_terminal: self.update_checkbox_text,
+            self.ldf_view.checkBox_startup: self.update_checkbox_text,
+            self.ldf_view.checkBox_python: self.update_python_label,
         }
         for signal, slot in signal_connections.items():
             signal.clicked.connect(slot)
-        self.udf_view.lineEdit_exec.textChanged.connect(
+        self.ldf_view.lineEdit_exec.textChanged.connect(
             self.update_checkbox_label_directory
         )
 
     def get_entered_data(self) -> dict:
         """Get all the entered data from the widgets."""
         return {
-            "Categories": self.udf_view.lineEdit_categories.text(),
-            "Comment": self.udf_view.lineEdit_comment.text(),
-            "Exec": self.udf_view.lineEdit_exec.property("original_text"),
-            "GenericName": self.udf_view.lineEdit_generic_name.text(),
-            "Icon": self.udf_view.lineEdit_icon.property("original_text"),
-            "Name": self.udf_view.lineEdit_name.text(),
+            "Categories": self.ldf_view.lineEdit_categories.text(),
+            "Comment": self.ldf_view.lineEdit_comment.text(),
+            "Exec": self.ldf_view.lineEdit_exec.property("original_text"),
+            "GenericName": self.ldf_view.lineEdit_generic_name.text(),
+            "Icon": self.ldf_view.lineEdit_icon.property("original_text"),
+            "Name": self.ldf_view.lineEdit_name.text(),
             "Path": (
-                os.path.dirname(self.udf_view.lineEdit_exec.property("original_text"))
-                if self.udf_view.checkBox_directory.isChecked()
+                os.path.dirname(self.ldf_view.lineEdit_exec.property("original_text"))
+                if self.ldf_view.checkBox_directory.isChecked()
                 else ""
             ),
-            "StartupNotify": str(self.udf_view.checkBox_startup.isChecked()).lower(),
-            "Terminal": str(self.udf_view.checkBox_terminal.isChecked()).lower(),
-            "Type": self.udf_view.lineEdit_type.text(),
-            "Version": self.udf_view.lineEdit_version.text(),
+            "StartupNotify": str(self.ldf_view.checkBox_startup.isChecked()).lower(),
+            "Terminal": str(self.ldf_view.checkBox_terminal.isChecked()).lower(),
+            "Type": self.ldf_view.lineEdit_type.text(),
+            "Version": self.ldf_view.lineEdit_version.text(),
         }
 
     def update_categories(self, list_categories: list) -> None:
         """Update the categories in the view based on the selected categories."""
-        self.udf_view.lineEdit_categories.setText(";".join(list_categories))
+        self.ldf_view.lineEdit_categories.setText(";".join(list_categories))
 
     @staticmethod
     def get_application_name(exec_path: str) -> str:
@@ -83,36 +82,36 @@ class UbuntuDesktopFileController:
 
     def update_application_name(self) -> None:
         """Update the application name based on the entered executable path."""
-        if self.udf_view.lineEdit_name.text():
+        if self.ldf_view.lineEdit_name.text():
             return
         application_name: str = self.get_application_name(
-            self.udf_view.lineEdit_exec.text()
+            self.ldf_view.lineEdit_exec.text()
         )
-        self.udf_view.lineEdit_name.setText(application_name)
+        self.ldf_view.lineEdit_name.setText(application_name)
 
     def check_widgets(self) -> bool:
         """Check if all required widgets have valid values."""
-        if not self.udf_view.lineEdit_name.text():
+        if not self.ldf_view.lineEdit_name.text():
             self.display_message(
-                self.udf_view.title, "Please enter an Application Name.", "information"
+                self.ldf_view.title, "Please enter an Application Name.", "information"
             )
             return False
-        if not self.udf_view.lineEdit_exec.text():
+        if not self.ldf_view.lineEdit_exec.text():
             message = (
                 "Please select Python file."
-                if self.udf_view.checkBox_python.isChecked()
+                if self.ldf_view.checkBox_python.isChecked()
                 else "Please select Executable file."
             )
-            self.display_message(self.udf_view.title, message, "information")
+            self.display_message(self.ldf_view.title, message, "information")
             return False
         return True
 
     def update_checkbox_text(self) -> None:
         """Update the text of the checkbox based on its state."""
-        checkbox = self.udf_view.sender()
-        if checkbox == self.udf_view.checkBox_directory:
+        checkbox = self.ldf_view.sender()
+        if checkbox == self.ldf_view.checkBox_directory:
             checkbox.setText(
-                os.path.dirname(self.udf_view.lineEdit_exec.text())
+                os.path.dirname(self.ldf_view.lineEdit_exec.text())
                 if checkbox.isChecked()
                 else ""
             )
@@ -121,14 +120,14 @@ class UbuntuDesktopFileController:
 
     def select_file_dialog(self, caption: str, filter: str) -> str | None:
         """Open a file dialog to select a file."""
-        if file := QFileDialog.getOpenFileName(parent=self.udf_view, caption=caption, filter=filter)[0]:
+        if file := QFileDialog.getOpenFileName(parent=self.ldf_view, caption=caption, filter=filter)[0]:
             return file
         return None
 
     def select_executable_or_python_file(self) -> None:
         """Open a file dialog to select the executable or Python file."""
-        self.udf_view.lineEdit_exec.clear()
-        if is_python := self.udf_view.checkBox_python.isChecked():
+        self.ldf_view.lineEdit_exec.clear()
+        if is_python := self.ldf_view.checkBox_python.isChecked():
             caption = "Select a Python file."
             file_ext = "*.py"
         else:
@@ -137,18 +136,18 @@ class UbuntuDesktopFileController:
         if file_path := self.select_file_dialog(caption=caption, filter=file_ext):
             if not is_python and not os.access(file_path, os.X_OK):
                 self.display_message(
-                    self.udf_view.title,
+                    self.ldf_view.title,
                     f"{file_path} <font color='red'>is not executable</font>.",
                     "information",
                 )
             else:
-                self.udf_view.lineEdit_exec.setProperty("original_text", file_path)
-                #file_path = self.truncate_text(self.udf_view.lineEdit_exec, file_path)
-                self.udf_view.lineEdit_exec.setText(file_path)
+                self.ldf_view.lineEdit_exec.setProperty("original_text", file_path)
+                #file_path = self.truncate_text(self.ldf_view.lineEdit_exec, file_path)
+                self.ldf_view.lineEdit_exec.setText(file_path)
 
     def update_checkbox_label_directory(self):
-        if self.udf_view.checkBox_directory.isChecked():
-            self.udf_view.checkBox_directory.setText(os.path.dirname(self.udf_view.lineEdit_exec.text()))
+        if self.ldf_view.checkBox_directory.isChecked():
+            self.ldf_view.checkBox_directory.setText(os.path.dirname(self.ldf_view.lineEdit_exec.text()))
 
     '''@staticmethod
     def truncate_text(widget: QLineEdit, file_path: str) -> str:
@@ -166,20 +165,20 @@ class UbuntuDesktopFileController:
             pixmap = QPixmap(icon_file)
             if pixmap.isNull():
                 self.display_message(
-                    self.udf_view.title,
+                    self.ldf_view.title,
                     f"{icon_file} <font color='red'>is not recognized</font>.",
                     "information",
                 )
-                self.udf_view.lineEdit_icon.clear()
+                self.ldf_view.lineEdit_icon.clear()
             else:
-                self.udf_view.lineEdit_icon.setProperty("original_text", icon_file)
-                #icon_file = self.truncate_text(self.udf_view.lineEdit_icon, icon_file)
-                self.udf_view.lineEdit_icon.setText(icon_file)
-                self.udf_view.label_icon_application.setPixmap(pixmap)
+                self.ldf_view.lineEdit_icon.setProperty("original_text", icon_file)
+                #icon_file = self.truncate_text(self.ldf_view.lineEdit_icon, icon_file)
+                self.ldf_view.lineEdit_icon.setText(icon_file)
+                self.ldf_view.label_icon_application.setPixmap(pixmap)
 
     def exec_categories(self) -> None:
         """Execute the categories view."""
-        self.udf_categories_view.exec()
+        self.ldf_categories_view.exec()
 
     def save_desktop_file(self) -> None:
         """Save the desktop file with the entered data."""
@@ -188,21 +187,21 @@ class UbuntuDesktopFileController:
         dict_data = self.get_entered_data()
         self.modify_exec_value(dict_data)
         if destination := self.choose_destination():
-            desktop_file_data = self.udf_model.generate_desktop_file_data(dict_data)
-            state, message = self.udf_model.write_desktop_file(destination, desktop_file_data)
+            desktop_file_data = self.ldf_tools.generate_desktop_file_data(dict_data)
+            state, message = self.ldf_tools.write_desktop_file(destination, desktop_file_data)
             message_type = "information" if state else "warning"
-            self.display_message(self.udf_view.title, message, message_type)
+            self.display_message(self.ldf_view.title, message, message_type)
 
     def modify_exec_value(self, data: dict) -> None:
         """Modify the 'Exec' value in the data dictionary if the checkbox is checked."""
-        if self.udf_view.checkBox_python.isChecked():
+        if self.ldf_view.checkBox_python.isChecked():
             data["Exec"] = f"python3 {data['Exec']}"
 
     def choose_destination(self) -> str:
         """Prompt the user to choose a destination to save the file."""
-        file_name = f"{self.udf_view.lineEdit_name.text()}.desktop"
+        file_name = f"{self.ldf_view.lineEdit_name.text()}.desktop"
         destination, _ = QFileDialog.getSaveFileName(
-            self.udf_view,
+            self.ldf_view,
             "Save Desktop file",
             file_name
         )
@@ -210,13 +209,13 @@ class UbuntuDesktopFileController:
 
     def update_python_label(self) -> None:
         """Update the label and style based on the Python checkbox state."""
-        self.udf_view.lineEdit_exec.clear()
-        if self.udf_view.checkBox_python.isChecked():
-            self.udf_view.label_exec.setText("Python File :")
-            self.udf_view.label_exec.setStyleSheet("color : red;")
+        self.ldf_view.lineEdit_exec.clear()
+        if self.ldf_view.checkBox_python.isChecked():
+            self.ldf_view.label_exec.setText("Python File :")
+            self.ldf_view.label_exec.setStyleSheet("color : red;")
         else:
-            self.udf_view.label_exec.setText("Exec :")
-            self.udf_view.label_exec.setStyleSheet("color : None;")
+            self.ldf_view.label_exec.setText("Exec :")
+            self.ldf_view.label_exec.setStyleSheet("color : None;")
 
     @staticmethod
     def display_message(title: str, text: str, type_message: str) -> None:
