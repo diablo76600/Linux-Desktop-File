@@ -2,8 +2,8 @@
 # Created by Diablo76 on 06/01/2024 -- 10:23:10.
 
 
-from PyQt6.QtCore import QRect, Qt
-from PyQt6.QtGui import QIcon, QPainter, QFontMetrics
+from PyQt6.QtCore import QRect, Qt, QRectF
+from PyQt6.QtGui import QIcon, QPainter, QFontMetrics, QPalette, QPen, QBrush, QColor
 from PyQt6.QtWidgets import (
     QMainWindow,
     QWidget,
@@ -12,6 +12,7 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QCheckBox,
+    QApplication
 )
 
 __version__: str = "1.0.9"
@@ -21,11 +22,16 @@ class CustomLineEdit(QLineEdit):
     def __init__(self, parent=None, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.elide_mode = Qt.TextElideMode.ElideMiddle
+        default_palette = QLineEdit.palette(self)
+        self.color_fill = default_palette.color(QPalette.ColorRole.Base)
+        self.color_outline = default_palette.color(QPalette.ColorRole.Text)
 
     def paintEvent(self, event):
         painter = QPainter(self)
+        painter.setBrush(QBrush(self.color_fill))
         fm = QFontMetrics(self.font())
         elided_text = fm.elidedText(self.text(), self.elide_mode, self.width())
+        painter.fillRect(self.rect(), self.color_fill)
         painter.drawText(self.rect(), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, elided_text)
 
 
@@ -35,8 +41,8 @@ class LinuxDesktopFileView(QMainWindow):
     This class represents the main window for the Ubuntu Desktop File.
     It provides various widgets for entering and displaying information related to the desktop file."""
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.title = "Linux Desktop File"
         self.setWindowTitle(f"{self.title} {__version__}")
         button_icon = QIcon("Assets/Images/loupe.png")

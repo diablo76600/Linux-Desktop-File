@@ -6,6 +6,7 @@ import os
 
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QMessageBox, QFileDialog
+from PyQt6.QtCore import Qt
 
 from ldf_tools import LinuxDesktopFileTools as LdfTools
 from ldf_ui_categories_view import LinuxDesktopFileCategoriesView as LdfCategoriesView

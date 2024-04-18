@@ -27,7 +27,7 @@ class LinuxDesktopFileManager:
         ldf_controller: The controller component for the Linux Desktop File.
         ldf_tools: The model component for the Linux Desktop File.
     """
-
+    
     def __init__(self) -> None:
         self.ldf_view = LdfView()
         self.ldf_categories_view = LdfCategoriesView()
