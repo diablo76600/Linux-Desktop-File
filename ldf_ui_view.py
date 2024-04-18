@@ -2,6 +2,8 @@
 # Created by Diablo76 on 06/01/2024 -- 10:23:10.
 
 
+from PyQt6.QtCore import QRect, Qt
+from PyQt6.QtGui import QIcon, QPainter, QFontMetrics
 from PyQt6.QtWidgets import (
     QMainWindow,
     QWidget,
@@ -11,10 +13,8 @@ from PyQt6.QtWidgets import (
     QPushButton,
     QCheckBox,
 )
-from PyQt6.QtGui import QIcon, QPainter, QFontMetrics
-from PyQt6.QtCore import QRect, Qt
 
-__version__ = "1.0.9"
+__version__: str = "1.0.9"
 
 
 class CustomLineEdit(QLineEdit):
@@ -45,9 +45,9 @@ class LinuxDesktopFileView(QMainWindow):
         self.resize(842, 390)
         self.setWindowIcon(QIcon("Assets/Images/Linux.png"))
         self.gridLayoutWidget = QWidget(self)
-        self.gridLayoutWidget.setGeometry(QRect(0, 0, 842, 390))
+        self.gridLayoutWidget.setGeometry(QRect(4, 4, 838, 388))
         self.gridLayout = QGridLayout(self.gridLayoutWidget)
-        
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
         # Widgets Name
         self.label_name = QLabel(self.gridLayoutWidget)
         self.label_name.setText("Application Name :")

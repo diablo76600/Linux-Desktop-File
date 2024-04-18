@@ -8,12 +8,12 @@
 import sys
 from typing import NoReturn
 
-from ldf_ui_view import LinuxDesktopFileView as LdfView
-from ldf_ui_categories_view import LinuxDesktopFileCategoriesView as LdfCategoriesView
+from PyQt6.QtWidgets import QApplication
+
 from ldf_controller import LinuxDesktopFileController as LdfController
 from ldf_tools import LinuxDesktopFileTools as LdfTools
-
-from PyQt6.QtWidgets import QApplication
+from ldf_ui_categories_view import LinuxDesktopFileCategoriesView as LdfCategoriesView
+from ldf_ui_view import LinuxDesktopFileView as LdfView
 
 
 class LinuxDesktopFileManager:

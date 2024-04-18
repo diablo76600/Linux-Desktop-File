@@ -4,12 +4,12 @@
 
 import os
 
-from ldf_ui_view import LinuxDesktopFileView as LdfView
-from ldf_ui_categories_view import LinuxDesktopFileCategoriesView as LdfCategoriesView
-from ldf_tools import LinuxDesktopFileTools as LdfTools
-
-from PyQt6.QtWidgets import QMessageBox, QFileDialog
 from PyQt6.QtGui import QPixmap
+from PyQt6.QtWidgets import QMessageBox, QFileDialog
+
+from ldf_tools import LinuxDesktopFileTools as LdfTools
+from ldf_ui_categories_view import LinuxDesktopFileCategoriesView as LdfCategoriesView
+from ldf_ui_view import LinuxDesktopFileView as LdfView
 
 
 class LinuxDesktopFileController:
