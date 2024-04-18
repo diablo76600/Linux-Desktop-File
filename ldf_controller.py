@@ -175,7 +175,6 @@ class LinuxDesktopFileController:
                 #icon_file = self.truncate_text(self.ldf_view.lineEdit_icon, icon_file)
                 self.ldf_view.lineEdit_icon.setText(icon_file)
                 self.ldf_view.label_icon_application.setPixmap(pixmap)
-
     def exec_categories(self) -> None:
         """Execute the categories view."""
         self.ldf_categories_view.exec()

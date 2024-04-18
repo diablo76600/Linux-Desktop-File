@@ -32,9 +32,9 @@ class LinuxDesktopFileManager:
         self.ldf_view = LdfView()
         self.ldf_categories_view = LdfCategoriesView()
         self.ldf_tools = LdfTools()
-        self.ldf_controller = LdfController(app,
-                                            self.ldf_view, self.ldf_categories_view, self.ldf_tools
-                                            )
+        self.ldf_controller = LdfController(
+            app, self.ldf_view, self.ldf_categories_view, self.ldf_tools
+        )
         self.ldf_controller.connect_signals()
 
     @staticmethod
