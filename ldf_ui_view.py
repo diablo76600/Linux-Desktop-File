@@ -2,8 +2,8 @@
 # Created by Diablo76 on 06/01/2024 -- 10:23:10.
 
 
-from PyQt6.QtCore import QRect, Qt, QRectF
-from PyQt6.QtGui import QIcon, QPainter, QFontMetrics, QPalette, QPen, QBrush, QColor, QResizeEvent
+from PyQt6.QtCore import QRect, Qt
+from PyQt6.QtGui import QIcon, QFontMetrics
 from PyQt6.QtWidgets import (
     QMainWindow,
     QWidget,
@@ -12,7 +12,6 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QCheckBox,
-    QApplication
 )
 
 __version__: str = "1.0.9"
