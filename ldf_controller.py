@@ -6,7 +6,7 @@ import os
 
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QMessageBox, QFileDialog
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import QEvent
 
 from ldf_tools import LinuxDesktopFileTools as LdfTools
 from ldf_ui_categories_view import LinuxDesktopFileCategoriesView as LdfCategoriesView
@@ -55,7 +55,7 @@ class LinuxDesktopFileController:
     def get_entered_data(self) -> dict:
         """Get all the entered data from the widgets."""
         return {
-            "Categories": self.ldf_view.lineEdit_categories.text(),
+            "Categories": self.ldf_view.lineEdit_categories.property("original_text"),
             "Comment": self.ldf_view.lineEdit_comment.text(),
             "Exec": self.ldf_view.lineEdit_exec.property("original_text"),
             "GenericName": self.ldf_view.lineEdit_generic_name.text(),
@@ -74,7 +74,8 @@ class LinuxDesktopFileController:
 
     def update_categories(self, list_categories: list) -> None:
         """Update the categories in the view based on the selected categories."""
-        self.ldf_view.lineEdit_categories.setText(";".join(list_categories))
+        self.ldf_view.lineEdit_categories.setProperty("original_text", ";".join(list_categories))
+        self.ldf_view.resizeEvent(QEvent)
 
     @staticmethod
     def get_application_name(exec_path: str) -> str:
@@ -143,8 +144,7 @@ class LinuxDesktopFileController:
                 )
             else:
                 self.ldf_view.lineEdit_exec.setProperty("original_text", file_path)
-                #file_path = self.truncate_text(self.ldf_view.lineEdit_exec, file_path)
-                self.ldf_view.lineEdit_exec.setText(file_path)
+                self.ldf_view.resizeEvent(file_path)
 
     def update_checkbox_label_directory(self):
         if self.ldf_view.checkBox_directory.isChecked():
@@ -173,8 +173,8 @@ class LinuxDesktopFileController:
                 self.ldf_view.lineEdit_icon.clear()
             else:
                 self.ldf_view.lineEdit_icon.setProperty("original_text", icon_file)
+                self.ldf_view.resizeEvent(QEvent)
                 #icon_file = self.truncate_text(self.ldf_view.lineEdit_icon, icon_file)
-                self.ldf_view.lineEdit_icon.setText(icon_file)
                 self.ldf_view.label_icon_application.setPixmap(pixmap)
     def exec_categories(self) -> None:
         """Execute the categories view."""
