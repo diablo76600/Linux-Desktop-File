@@ -17,24 +17,33 @@ from PyQt6.QtWidgets import (
 __version__: str = "1.0.9"
 
 class ElideLineEdit(QLineEdit):
+    """
+    A custom QLineEdit widget that elides text to fit within its width.
+
+    Args:
+        a0: The text to set on the widget.
+    """
     def __init__(self, *args, **kwargs):
+        """Initializes the ElideLineEdit widget."""
         super().__init__(*args, **kwargs)
         self.elide_mode = Qt.TextElideMode.ElideMiddle
         self.original_text = self.property("original_text")  # Store the original text
 
-    def elide_text(self):
+    def elide_text(self) -> str:
+        """Elides the text to fit within the widget's width."""
         fm = QFontMetrics(self.font())
         return fm.elidedText(self.original_text, self.elide_mode, self.width())
 
     def setText(self, a0: str | None) -> None:
+        """Sets the text on the widget, eliding it if necessary."""
         if a0 is not None:
             self.original_text = a0  # Update original text only if a0 is not None
         text_elided = self.elide_text()
-        return super().setText(text_elided)
+        super().setText(text_elided)
 
     def resizeEvent(self, event) -> None:
-        text_elided = self.elide_text()  # Directly elide and set the text
-        super().setText(text_elided)
+        """Handles the resize event of the widget by eliding and setting the text."""
+        self.setText(None)
 
 class LinuxDesktopFileView(QMainWindow):
     """Manage the Linux Desktop File View.
