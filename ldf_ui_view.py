@@ -20,18 +20,21 @@ class ElideLineEdit(QLineEdit):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.elide_mode = Qt.TextElideMode.ElideMiddle
+        self.original_text = self.property("original_text")  # Store the original text
 
     def elide_text(self):
-        if self.property("original_text"):
-                fm = QFontMetrics(self.font())
-                return fm.elidedText(self.property("original_text"), self.elide_mode, self.width())
+        fm = QFontMetrics(self.font())
+        return fm.elidedText(self.original_text, self.elide_mode, self.width())
 
     def setText(self, a0: str | None) -> None:
+        if a0 is not None:
+            self.original_text = a0  # Update original text only if a0 is not None
         text_elided = self.elide_text()
         return super().setText(text_elided)
-    
+
     def resizeEvent(self, event) -> None:
-        self.setText(None)
+        text_elided = self.elide_text()  # Directly elide and set the text
+        super().setText(text_elided)
 
 class LinuxDesktopFileView(QMainWindow):
     """Manage the Linux Desktop File View.
@@ -169,11 +172,4 @@ class LinuxDesktopFileView(QMainWindow):
         # Show Ui
         self.show()
 
-    """def resizeEvent(self, event) -> None:
-        elide_mode = Qt.TextElideMode.ElideMiddle
-        for line_edit in self.gridLayoutWidget.findChildren(QLineEdit):
-            if line_edit.property("original_text"):
-                fm = QFontMetrics(line_edit.font())
-                elided_text = fm.elidedText(line_edit.property("original_text"), elide_mode, line_edit.width())
-                line_edit.setText(elided_text)"""
 
