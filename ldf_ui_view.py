@@ -3,7 +3,7 @@
 
 
 from PyQt6.QtCore import QRect, Qt
-from PyQt6.QtGui import QIcon, QFontMetrics
+from PyQt6.QtGui import QIcon, QFontMetrics, QPixmap
 from PyQt6.QtWidgets import (
     QMainWindow,
     QWidget,
@@ -12,9 +12,11 @@ from PyQt6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QCheckBox,
+    QFrame,
 )
 
 __version__: str = "1.0.9"
+
 
 class ElideLineEdit(QLineEdit):
     """
@@ -23,6 +25,7 @@ class ElideLineEdit(QLineEdit):
     Args:
         a0: The text to set on the widget.
     """
+
     def __init__(self, *args, **kwargs):
         """Initializes the ElideLineEdit widget."""
         super().__init__(*args, **kwargs)
@@ -46,11 +49,13 @@ class ElideLineEdit(QLineEdit):
         self.setText(None)
         super().resizeEvent(event)
 
+
 class LinuxDesktopFileView(QMainWindow):
     """Manage the Linux Desktop File View.
 
     This class represents the main window for the Ubuntu Desktop File.
-    It provides various widgets for entering and displaying information related to the desktop file."""
+    It provides various widgets for entering and displaying information related to the desktop file.
+    """
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -58,6 +63,7 @@ class LinuxDesktopFileView(QMainWindow):
         self.setWindowTitle(f"{self.title} {__version__}")
         button_icon = QIcon("Assets/Images/loupe.png")
         button_categories = QIcon("Assets/Images/directory_icon.png")
+        no_icon = QPixmap("Assets/Images/No_icon.png")
         self.resize(842, 390)
         self.setWindowIcon(QIcon("Assets/Images/Linux.png"))
         self.gridLayoutWidget = QWidget(self)
@@ -95,7 +101,9 @@ class LinuxDesktopFileView(QMainWindow):
         self.pushButton_exec = QPushButton(self.gridLayoutWidget)
         self.pushButton_exec.setIcon(button_icon)
         self.pushButton_exec.setFixedSize(24, 24)
-        self.gridLayout.addWidget(self.pushButton_exec, 3, 2, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.gridLayout.addWidget(
+            self.pushButton_exec, 3, 2, alignment=Qt.AlignmentFlag.AlignCenter
+        )
         # Widgets Icon
         self.label_icon = QLabel(self.gridLayoutWidget)
         self.label_icon.setText("Icon :")
@@ -106,7 +114,9 @@ class LinuxDesktopFileView(QMainWindow):
         self.pushButton_icon = QPushButton(self.gridLayoutWidget)
         self.pushButton_icon.setIcon(button_icon)
         self.pushButton_icon.setFixedSize(24, 24)
-        self.gridLayout.addWidget(self.pushButton_icon, 4, 2, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.gridLayout.addWidget(
+            self.pushButton_icon, 4, 2, alignment=Qt.AlignmentFlag.AlignCenter
+        )
         # Widgets Type
         self.label_type = QLabel(self.gridLayoutWidget)
         self.label_type.setText("Type :")
@@ -132,7 +142,9 @@ class LinuxDesktopFileView(QMainWindow):
         self.pushButton_categories = QPushButton(self.gridLayoutWidget)
         self.pushButton_categories.setIcon(button_categories)
         self.pushButton_categories.setFixedSize(24, 24)
-        self.gridLayout.addWidget(self.pushButton_categories, 7, 2, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.gridLayout.addWidget(
+            self.pushButton_categories, 7, 2, alignment=Qt.AlignmentFlag.AlignCenter
+        )
         # Widgets Teminal
         self.label_terminal = QLabel(self.gridLayoutWidget)
         self.label_terminal.setText("Terminal :")
@@ -165,14 +177,22 @@ class LinuxDesktopFileView(QMainWindow):
         self.gridLayout.addWidget(self.checkBox_python, 11, 1)
         # Widget Label_icon
         self.label_icon_application = QLabel(self)
+        self.label_icon_application.setFrameShape(QFrame.Shape.Panel)
+        self.label_icon_application.setFrameShadow(QFrame.Shadow.Sunken)
         self.label_icon_application.setFixedSize(60, 60)
         self.label_icon_application.setScaledContents(True)
-        self.gridLayout.addWidget(self.label_icon_application, 0, 2, 2, 2, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.label_icon_application.setPixmap(no_icon)
+        self.gridLayout.addWidget(
+            self.label_icon_application, 0, 2, 2, 2,
+            alignment=Qt.AlignmentFlag.AlignCenter,
+        )
         # Widget Save
         self.pushButton_save = QPushButton(self)
         self.pushButton_save.setText("Save")
         self.pushButton_save.setFixedSize(68, 32)
-        self.gridLayout.addWidget(self.pushButton_save, 12, 1, alignment=Qt.AlignmentFlag.AlignRight)
+        self.gridLayout.addWidget(
+            self.pushButton_save, 12, 1, alignment=Qt.AlignmentFlag.AlignRight
+        )
         # Widget Quit
         self.pushButton_quit = QPushButton(self)
         self.pushButton_quit.setText("Quit")
@@ -181,5 +201,3 @@ class LinuxDesktopFileView(QMainWindow):
         self.setCentralWidget(self.gridLayoutWidget)
         # Show Ui
         self.show()
-
-
