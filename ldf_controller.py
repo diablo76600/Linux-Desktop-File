@@ -150,16 +150,6 @@ class LinuxDesktopFileController:
         if self.ldf_view.checkBox_directory.isChecked():
             self.ldf_view.checkBox_directory.setText(os.path.dirname(self.ldf_view.lineEdit_exec.text()))
 
-    '''@staticmethod
-    def truncate_text(widget: QLineEdit, file_path: str) -> str:
-        """Truncates text to fit within the width of QLineEdit, 
-            adding ellipsis if text is longer."""
-        font_metrics = QFontMetrics(widget.font())
-        return font_metrics.elidedText(
-
-            file_path, Qt.TextElideMode.ElideMiddle, widget.width()
-        )'''
-
     def set_icon(self) -> None:
         """Open a file dialog to select the icon file and display it."""
         if icon_file := self.select_file_dialog(caption="Select Icon file.", filter=""):
@@ -174,7 +164,6 @@ class LinuxDesktopFileController:
             else:
                 self.ldf_view.lineEdit_icon.setProperty("original_text", icon_file)
                 self.ldf_view.lineEdit_icon.setText(icon_file)
-                #icon_file = self.truncate_text(self.ldf_view.lineEdit_icon, icon_file)
                 self.ldf_view.label_icon_application.setPixmap(pixmap)
     def exec_categories(self) -> None:
         """Execute the categories view."""

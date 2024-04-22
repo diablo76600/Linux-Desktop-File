@@ -14,6 +14,7 @@ from PyQt6.QtWidgets import (
     QCheckBox,
     QFrame,
 )
+from ldf_tools import LinuxDesktopFileTools as ldft
 
 __version__: str = "1.0.9"
 
@@ -60,12 +61,12 @@ class LinuxDesktopFileView(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title = "Linux Desktop File"
-        self.setWindowTitle(f"{self.title} {__version__}")
-        button_icon = QIcon("Assets/Images/loupe.png")
-        button_categories = QIcon("Assets/Images/directory_icon.png")
-        no_icon = QPixmap("Assets/Images/No_icon.png")
         self.resize(842, 390)
-        self.setWindowIcon(QIcon("Assets/Images/Linux.png"))
+        self.setWindowTitle(f"{self.title} {__version__}")
+        button_icon = QIcon(ldft.resource_path("Assets/Images/loupe.png"))
+        button_categories = QIcon(ldft.resource_path("Assets/Images/directory_icon.png"))
+        no_icon = QPixmap(ldft.resource_path("Assets/Images/No_icon.png"))
+        self.setWindowIcon(QIcon(ldft.resource_path("Assets/Images/Linux.png")))
         self.gridLayoutWidget = QWidget(self)
         self.gridLayoutWidget.setGeometry(QRect(0, 0, 842, 390))
         self.gridLayout = QGridLayout(self.gridLayoutWidget)
