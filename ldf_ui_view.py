@@ -44,6 +44,7 @@ class ElideLineEdit(QLineEdit):
     def resizeEvent(self, event) -> None:
         """Handles the resize event of the widget by eliding and setting the text."""
         self.setText(None)
+        super().resizeEvent(event)
 
 class LinuxDesktopFileView(QMainWindow):
     """Manage the Linux Desktop File View.
