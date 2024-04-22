@@ -16,7 +16,22 @@ from PyQt6.QtWidgets import (
 
 __version__: str = "1.0.9"
 
+class ElideLineEdit(QLineEdit):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.elide_mode = Qt.TextElideMode.ElideMiddle
 
+    def elide_text(self):
+        if self.property("original_text"):
+                fm = QFontMetrics(self.font())
+                return fm.elidedText(self.property("original_text"), self.elide_mode, self.width())
+
+    def setText(self, a0: str | None) -> None:
+        text_elided = self.elide_text()
+        return super().setText(text_elided)
+    
+    def resizeEvent(self, event) -> None:
+        self.setText(None)
 
 class LinuxDesktopFileView(QMainWindow):
     """Manage the Linux Desktop File View.
@@ -61,7 +76,7 @@ class LinuxDesktopFileView(QMainWindow):
         self.label_exec = QLabel(self.gridLayoutWidget)
         self.label_exec.setText("Exec :")
         self.gridLayout.addWidget(self.label_exec, 3, 0)
-        self.lineEdit_exec = QLineEdit(self.gridLayoutWidget)
+        self.lineEdit_exec = ElideLineEdit(self.gridLayoutWidget)
         self.lineEdit_exec.setReadOnly(True)
         self.gridLayout.addWidget(self.lineEdit_exec, 3, 1)
         self.pushButton_exec = QPushButton(self.gridLayoutWidget)
@@ -72,7 +87,7 @@ class LinuxDesktopFileView(QMainWindow):
         self.label_icon = QLabel(self.gridLayoutWidget)
         self.label_icon.setText("Icon :")
         self.gridLayout.addWidget(self.label_icon, 4, 0)
-        self.lineEdit_icon = QLineEdit(self.gridLayoutWidget)
+        self.lineEdit_icon = ElideLineEdit(self.gridLayoutWidget)
         self.lineEdit_icon.setReadOnly(True)
         self.gridLayout.addWidget(self.lineEdit_icon, 4, 1)
         self.pushButton_icon = QPushButton(self.gridLayoutWidget)
@@ -98,7 +113,7 @@ class LinuxDesktopFileView(QMainWindow):
         self.label_categories = QLabel(self.gridLayoutWidget)
         self.label_categories.setText("Categories :")
         self.gridLayout.addWidget(self.label_categories, 7, 0)
-        self.lineEdit_categories = QLineEdit(self.gridLayoutWidget)
+        self.lineEdit_categories = ElideLineEdit(self.gridLayoutWidget)
         self.lineEdit_categories.setReadOnly(True)
         self.gridLayout.addWidget(self.lineEdit_categories, 7, 1)
         self.pushButton_categories = QPushButton(self.gridLayoutWidget)
@@ -154,11 +169,11 @@ class LinuxDesktopFileView(QMainWindow):
         # Show Ui
         self.show()
 
-    def resizeEvent(self, event) -> None:
+    """def resizeEvent(self, event) -> None:
         elide_mode = Qt.TextElideMode.ElideMiddle
         for line_edit in self.gridLayoutWidget.findChildren(QLineEdit):
             if line_edit.property("original_text"):
                 fm = QFontMetrics(line_edit.font())
                 elided_text = fm.elidedText(line_edit.property("original_text"), elide_mode, line_edit.width())
-                line_edit.setText(elided_text)
+                line_edit.setText(elided_text)"""
 

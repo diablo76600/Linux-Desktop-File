@@ -75,7 +75,7 @@ class LinuxDesktopFileController:
     def update_categories(self, list_categories: list) -> None:
         """Update the categories in the view based on the selected categories."""
         self.ldf_view.lineEdit_categories.setProperty("original_text", ";".join(list_categories))
-        self.ldf_view.resizeEvent(QEvent)
+        self.ldf_view.lineEdit_categories.setText(";".join(list_categories))
 
     @staticmethod
     def get_application_name(exec_path: str) -> str:
@@ -87,7 +87,7 @@ class LinuxDesktopFileController:
         if self.ldf_view.lineEdit_name.text():
             return
         application_name: str = self.get_application_name(
-            self.ldf_view.lineEdit_exec.text()
+            self.ldf_view.lineEdit_exec.property("original_text")
         )
         self.ldf_view.lineEdit_name.setText(application_name)
 
@@ -144,7 +144,7 @@ class LinuxDesktopFileController:
                 )
             else:
                 self.ldf_view.lineEdit_exec.setProperty("original_text", file_path)
-                self.ldf_view.resizeEvent(file_path)
+                self.ldf_view.lineEdit_exec.setText(file_path)
 
     def update_checkbox_label_directory(self):
         if self.ldf_view.checkBox_directory.isChecked():
@@ -173,7 +173,7 @@ class LinuxDesktopFileController:
                 self.ldf_view.lineEdit_icon.clear()
             else:
                 self.ldf_view.lineEdit_icon.setProperty("original_text", icon_file)
-                self.ldf_view.resizeEvent(QEvent)
+                self.ldf_view.lineEdit_icon.setText(icon_file)
                 #icon_file = self.truncate_text(self.ldf_view.lineEdit_icon, icon_file)
                 self.ldf_view.label_icon_application.setPixmap(pixmap)
     def exec_categories(self) -> None:
