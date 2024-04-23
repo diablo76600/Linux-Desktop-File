@@ -56,7 +56,7 @@ Type=Application
 Version=1.0.6</code></pre>
 \
 \
-Pour executer le programme, double-cliquez sur le fichier `run_script.sh`
+Pour exécuter le programme, double-cliquez sur le fichier `run_script.sh`
 
 
 

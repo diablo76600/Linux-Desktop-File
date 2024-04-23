@@ -35,8 +35,8 @@ class LinuxDesktopFileCategoriesView(QDialog):
         "Utility",
     ]
 
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
+    def __init__(self, parent=None, *args, **kwargs) -> None:
+        super().__init__(parent, *args, **kwargs)
 
         # Set window title and size
         self.setWindowTitle("Select your categories")

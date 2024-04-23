@@ -3,6 +3,7 @@
 
 import os
 
+
 class LinuxDesktopFileTools:
     """Manage the Ubuntu Desktop File Model.
 

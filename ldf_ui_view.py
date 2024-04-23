@@ -27,28 +27,35 @@ class ElideLineEdit(QLineEdit):
         a0: The text to set on the widget.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, parent=None, *args, **kwargs):
         """Initializes the ElideLineEdit widget."""
-        super().__init__(*args, **kwargs)
+        super().__init__(parent, *args, **kwargs)
         self.elide_mode = Qt.TextElideMode.ElideMiddle
-        self.original_text = self.property("original_text")  # Store the original text
+        self._original_text = ""
 
     def elide_text(self) -> str:
         """Elides the text to fit within the widget's width."""
         fm = QFontMetrics(self.font())
-        return fm.elidedText(self.original_text, self.elide_mode, self.width())
+        return fm.elidedText(self._original_text, self.elide_mode, self.width())
 
-    def setText(self, a0: str | None) -> None:
+    def setText(self, a0: str) -> None:
         """Sets the text on the widget, eliding it if necessary."""
-        if a0 is not None:
-            self.original_text = a0  # Update original text only if a0 is not None
-        text_elided = self.elide_text()
-        super().setText(text_elided)
+        self._original_text = a0  # Directly set the original text
+        self._update_text()
+
+    def text(self):
+        """Returns the original (non-elided) text."""
+        return self._original_text
 
     def resizeEvent(self, event) -> None:
         """Handles the resize event of the widget by eliding and setting the text."""
-        self.setText(None)
+        self._update_text()
         super().resizeEvent(event)
+
+    def _update_text(self):
+        """Updates the displayed text with an elided version if necessary."""
+        text_elided = self.elide_text()
+        super().setText(text_elided)
 
 
 class LinuxDesktopFileView(QMainWindow):
@@ -64,7 +71,9 @@ class LinuxDesktopFileView(QMainWindow):
         self.resize(842, 390)
         self.setWindowTitle(f"{self.title} {__version__}")
         button_icon = QIcon(ldft.resource_path("Assets/Images/loupe.png"))
-        button_categories = QIcon(ldft.resource_path("Assets/Images/directory_icon.png"))
+        button_categories = QIcon(
+            ldft.resource_path("Assets/Images/directory_icon.png")
+        )
         no_icon = QPixmap(ldft.resource_path("Assets/Images/No_icon.png"))
         self.setWindowIcon(QIcon(ldft.resource_path("Assets/Images/Linux.png")))
         self.gridLayoutWidget = QWidget(self)
@@ -184,7 +193,11 @@ class LinuxDesktopFileView(QMainWindow):
         self.label_icon_application.setScaledContents(True)
         self.label_icon_application.setPixmap(no_icon)
         self.gridLayout.addWidget(
-            self.label_icon_application, 0, 2, 2, 2,
+            self.label_icon_application,
+            0,
+            2,
+            2,
+            2,
             alignment=Qt.AlignmentFlag.AlignCenter,
         )
         # Widget Save

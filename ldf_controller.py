@@ -55,14 +55,14 @@ class LinuxDesktopFileController:
     def get_entered_data(self) -> dict:
         """Get all the entered data from the widgets."""
         return {
-            "Categories": self.ldf_view.lineEdit_categories.property("original_text"),
+            "Categories": self.ldf_view.lineEdit_categories.text(),
             "Comment": self.ldf_view.lineEdit_comment.text(),
-            "Exec": self.ldf_view.lineEdit_exec.property("original_text"),
+            "Exec": self.ldf_view.lineEdit_exec.text(),
             "GenericName": self.ldf_view.lineEdit_generic_name.text(),
-            "Icon": self.ldf_view.lineEdit_icon.property("original_text"),
+            "Icon": self.ldf_view.lineEdit_icon.text(),
             "Name": self.ldf_view.lineEdit_name.text(),
             "Path": (
-                os.path.dirname(self.ldf_view.lineEdit_exec.property("original_text"))
+                os.path.dirname(self.ldf_view.lineEdit_exec.text())
                 if self.ldf_view.checkBox_directory.isChecked()
                 else ""
             ),
@@ -74,7 +74,6 @@ class LinuxDesktopFileController:
 
     def update_categories(self, list_categories: list) -> None:
         """Update the categories in the view based on the selected categories."""
-        self.ldf_view.lineEdit_categories.setProperty("original_text", ";".join(list_categories))
         self.ldf_view.lineEdit_categories.setText(";".join(list_categories))
 
     @staticmethod
@@ -87,7 +86,7 @@ class LinuxDesktopFileController:
         if self.ldf_view.lineEdit_name.text():
             return
         application_name: str = self.get_application_name(
-            self.ldf_view.lineEdit_exec.property("original_text")
+            self.ldf_view.lineEdit_exec.text()
         )
         self.ldf_view.lineEdit_name.setText(application_name)
 
@@ -143,7 +142,6 @@ class LinuxDesktopFileController:
                     "information",
                 )
             else:
-                self.ldf_view.lineEdit_exec.setProperty("original_text", file_path)
                 self.ldf_view.lineEdit_exec.setText(file_path)
 
     def update_checkbox_label_directory(self):
@@ -162,9 +160,9 @@ class LinuxDesktopFileController:
                 )
                 self.ldf_view.lineEdit_icon.clear()
             else:
-                self.ldf_view.lineEdit_icon.setProperty("original_text", icon_file)
                 self.ldf_view.lineEdit_icon.setText(icon_file)
                 self.ldf_view.label_icon_application.setPixmap(pixmap)
+
     def exec_categories(self) -> None:
         """Execute the categories view."""
         self.ldf_categories_view.exec()
