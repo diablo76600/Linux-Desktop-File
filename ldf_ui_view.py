@@ -112,7 +112,8 @@ class LinuxDesktopFileView(QMainWindow):
         self.pushButton_exec.setIcon(button_icon)
         self.pushButton_exec.setFixedSize(24, 24)
         self.gridLayout.addWidget(
-            self.pushButton_exec, 3, 2, alignment=Qt.AlignmentFlag.AlignCenter
+            self.pushButton_exec, 3, 2, 
+            alignment=Qt.AlignmentFlag.AlignCenter
         )
         # Widgets Icon
         self.label_icon = QLabel(self.gridLayoutWidget)
@@ -125,7 +126,8 @@ class LinuxDesktopFileView(QMainWindow):
         self.pushButton_icon.setIcon(button_icon)
         self.pushButton_icon.setFixedSize(24, 24)
         self.gridLayout.addWidget(
-            self.pushButton_icon, 4, 2, alignment=Qt.AlignmentFlag.AlignCenter
+            self.pushButton_icon, 4, 2, 
+            alignment=Qt.AlignmentFlag.AlignCenter
         )
         # Widgets Type
         self.label_type = QLabel(self.gridLayoutWidget)
@@ -153,7 +155,8 @@ class LinuxDesktopFileView(QMainWindow):
         self.pushButton_categories.setIcon(button_categories)
         self.pushButton_categories.setFixedSize(24, 24)
         self.gridLayout.addWidget(
-            self.pushButton_categories, 7, 2, alignment=Qt.AlignmentFlag.AlignCenter
+            self.pushButton_categories, 7, 2, 
+            alignment=Qt.AlignmentFlag.AlignCenter
         )
         # Widgets Teminal
         self.label_terminal = QLabel(self.gridLayoutWidget)
@@ -193,11 +196,7 @@ class LinuxDesktopFileView(QMainWindow):
         self.label_icon_application.setScaledContents(True)
         self.label_icon_application.setPixmap(no_icon)
         self.gridLayout.addWidget(
-            self.label_icon_application,
-            0,
-            2,
-            2,
-            2,
+            self.label_icon_application, 0, 2, 2, 2,
             alignment=Qt.AlignmentFlag.AlignCenter,
         )
         # Widget Save
@@ -205,7 +204,8 @@ class LinuxDesktopFileView(QMainWindow):
         self.pushButton_save.setText("Save")
         self.pushButton_save.setFixedSize(68, 32)
         self.gridLayout.addWidget(
-            self.pushButton_save, 12, 1, alignment=Qt.AlignmentFlag.AlignRight
+            self.pushButton_save, 12, 1, 
+            alignment=Qt.AlignmentFlag.AlignRight
         )
         # Widget Quit
         self.pushButton_quit = QPushButton(self)

@@ -96,6 +96,7 @@ class LinuxDesktopFileController:
             self.display_message(
                 self.ldf_view.title, "Please enter an Application Name.", "information"
             )
+            self.ldf_view.lineEdit_name.setFocus()
             return False
         if not self.ldf_view.lineEdit_exec.text():
             message = (
@@ -104,6 +105,11 @@ class LinuxDesktopFileController:
                 else "Please select Executable file."
             )
             self.display_message(self.ldf_view.title, message, "information")
+            self.ldf_view.lineEdit_exec.setFocus()
+            return False
+        if not self.ldf_view.lineEdit_icon.text():
+            self.display_message(self.ldf_view.title, "Please select an icon for your Application.", "information")
+            self.ldf_view.lineEdit_icon.setFocus()
             return False
         return True
 
