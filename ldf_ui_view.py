@@ -40,7 +40,7 @@ class ElideLineEdit(QLineEdit):
 
     def setText(self, a0: str) -> None:
         """Sets the text on the widget, eliding it if necessary."""
-        self._original_text = a0  # Directly set the original text
+        self._original_text = a0
         self._update_text()
 
     def text(self):
@@ -68,7 +68,7 @@ class LinuxDesktopFileView(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title = "Linux Desktop File"
-        self.resize(842, 390)
+        self.resize(700, 390)
         self.setWindowTitle(f"{self.title} {__version__}")
         button_icon = QIcon(ldft.resource_path("Assets/Images/loupe.png"))
         button_categories = QIcon(
@@ -77,7 +77,7 @@ class LinuxDesktopFileView(QMainWindow):
         no_icon = QPixmap(ldft.resource_path("Assets/Images/No_icon.png"))
         self.setWindowIcon(QIcon(ldft.resource_path("Assets/Images/Linux.png")))
         self.gridLayoutWidget = QWidget(self)
-        self.gridLayoutWidget.setGeometry(QRect(0, 0, 842, 390))
+        self.gridLayoutWidget.setGeometry(QRect(0, 0, 700, 390))
         self.gridLayout = QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         # Widgets Name

@@ -16,7 +16,7 @@ from ldf_ui_categories_view import LinuxDesktopFileCategoriesView as LdfCategori
 from ldf_ui_view import LinuxDesktopFileView as LdfView
 
 
-class LinuxDesktopMain:
+class LinuxDesktopFileMain:
     """Manage the Linux Desktop File Manager.
 
     This class is responsible for managing the Linux Desktop File Manager.
@@ -45,5 +45,5 @@ class LinuxDesktopMain:
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    linux_desktop_main = LinuxDesktopMain()
+    linux_desktop_main = LinuxDesktopFileMain()
     linux_desktop_main.run()

@@ -92,25 +92,18 @@ class LinuxDesktopFileController:
 
     def check_widgets(self) -> bool:
         """Check if all required widgets have valid values."""
-        if not self.ldf_view.lineEdit_name.text():
-            self.display_message(
-                self.ldf_view.title, "Please enter an Application Name.", "information"
-            )
-            self.ldf_view.lineEdit_name.setFocus()
-            return False
-        if not self.ldf_view.lineEdit_exec.text():
-            message = (
-                "Please select Python file."
-                if self.ldf_view.checkBox_python.isChecked()
-                else "Please select Executable file."
-            )
-            self.display_message(self.ldf_view.title, message, "information")
-            self.ldf_view.lineEdit_exec.setFocus()
-            return False
-        if not self.ldf_view.lineEdit_icon.text():
-            self.display_message(self.ldf_view.title, "Please select an icon for your Application.", "information")
-            self.ldf_view.lineEdit_icon.setFocus()
-            return False
+        exec_message = "Please select Python file." if self.ldf_view.checkBox_python.isChecked() else "Please select Executable file."
+        widget_checks = [
+            (self.ldf_view.lineEdit_name, "Please enter an Application Name."),
+            (self.ldf_view.lineEdit_exec, exec_message),
+            (self.ldf_view.lineEdit_icon, "Please select an icon for your Application."),
+        ]
+
+        for widget, message in widget_checks:
+            if not widget.text():
+                self.display_message(self.ldf_view.title, message, "information")
+                widget.setFocus()
+                return False
         return True
 
     def update_checkbox_text(self) -> None:
