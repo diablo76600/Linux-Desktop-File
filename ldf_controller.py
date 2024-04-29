@@ -6,7 +6,6 @@ import os
 
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QMessageBox, QFileDialog
-from PyQt6.QtCore import QEvent
 
 from ldf_tools import LinuxDesktopFileTools as LdfTools
 from ldf_ui_categories_view import LinuxDesktopFileCategoriesView as LdfCategoriesView
@@ -101,7 +100,7 @@ class LinuxDesktopFileController:
 
         for widget, message in widget_checks:
             if not widget.text():
-                self.display_message(self.ldf_view.title, message, "information")
+                self.display_message(self.ldf_view.title, message, QMessageBox.Icon.Information)
                 widget.setFocus()
                 return False
         return True
@@ -138,7 +137,7 @@ class LinuxDesktopFileController:
                 self.display_message(
                     self.ldf_view.title,
                     f"{file_path} <font color='red'>is not executable</font>.",
-                    "information",
+                    QMessageBox.Icon.Warning,
                 )
             else:
                 self.ldf_view.lineEdit_exec.setText(file_path)
@@ -155,7 +154,7 @@ class LinuxDesktopFileController:
                 self.display_message(
                     self.ldf_view.title,
                     f"{icon_file} <font color='red'>is not recognized</font>.",
-                    "information",
+                    QMessageBox.Icon.Warning,
                 )
                 self.ldf_view.lineEdit_icon.clear()
             else:
@@ -175,7 +174,7 @@ class LinuxDesktopFileController:
         if destination := self.choose_destination():
             desktop_file_data = self.ldf_tools.generate_desktop_file_data(dict_data)
             state, message = self.ldf_tools.write_desktop_file(destination, desktop_file_data)
-            message_type = "information" if state else "warning"
+            message_type = QMessageBox.Icon.Information if state else QMessageBox.Icon.Warning
             self.display_message(self.ldf_view.title, message, message_type)
 
     def modify_exec_value(self, data: dict) -> None:
@@ -204,10 +203,7 @@ class LinuxDesktopFileController:
             self.ldf_view.label_exec.setStyleSheet("color : None;")
 
     @staticmethod
-    def display_message(title: str, text: str, type_message: str) -> None:
+    def display_message(title: str, text: str, type_message: QMessageBox.icon) -> None:
         """Display a message box with the specified title, text, and type.
         """
-        if type_message == "warning":
-            QMessageBox.warning(None, title, text)
-        else:
-            QMessageBox.information(None, title, text)
+        QMessageBox(type_message, title, text).exec()
