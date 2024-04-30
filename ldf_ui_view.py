@@ -16,15 +16,12 @@ from PyQt6.QtWidgets import (
 )
 from ldf_tools import LinuxDesktopFileTools as ldft
 
-__version__: str = "1.0.9"
+__version__: str = "1.0.9.1"
 
 
 class ElideLineEdit(QLineEdit):
     """
     A custom QLineEdit widget that elides text to fit within its width.
-
-    Args:
-        a0: The text to set on the widget.
     """
 
     def __init__(self, parent=None, *args, **kwargs):
@@ -43,7 +40,7 @@ class ElideLineEdit(QLineEdit):
         self._original_text = a0
         self._update_text()
 
-    def text(self):
+    def text(self) -> str: 
         """Returns the original (non-elided) text."""
         return self._original_text
 
@@ -52,10 +49,9 @@ class ElideLineEdit(QLineEdit):
         self._update_text()
         super().resizeEvent(event)
 
-    def _update_text(self):
+    def _update_text(self) -> None:
         """Updates the displayed text with an elided version if necessary."""
-        text_elided = self.elide_text()
-        super().setText(text_elided)
+        super().setText(self.elide_text())
 
 
 class LinuxDesktopFileView(QMainWindow):

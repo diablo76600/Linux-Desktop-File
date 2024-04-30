@@ -125,7 +125,6 @@ class LinuxDesktopFileController:
 
     def select_executable_or_python_file(self) -> None:
         """Open a file dialog to select the executable or Python file."""
-        self.ldf_view.lineEdit_exec.clear()
         if is_python := self.ldf_view.checkBox_python.isChecked():
             caption = "Select a Python file."
             file_ext = "*.py"
@@ -139,6 +138,7 @@ class LinuxDesktopFileController:
                     f"{file_path} <font color='red'>is not executable</font>.",
                     QMessageBox.Icon.Warning,
                 )
+                self.ldf_view.lineEdit_exec.setText("")
             else:
                 self.ldf_view.lineEdit_exec.setText(file_path)
 
@@ -156,7 +156,7 @@ class LinuxDesktopFileController:
                     f"{icon_file} <font color='red'>is not recognized</font>.",
                     QMessageBox.Icon.Warning,
                 )
-                self.ldf_view.lineEdit_icon.clear()
+                self.ldf_view.lineEdit_icon.setText("")
             else:
                 self.ldf_view.lineEdit_icon.setText(icon_file)
                 self.ldf_view.label_icon_application.setPixmap(pixmap)
