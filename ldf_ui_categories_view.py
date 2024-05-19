@@ -1,7 +1,7 @@
 # -*- Coding: utf-8 -*-
 # Created by Diablo76 on 04/01/2024 -- 00:44:10.
 
-from PyQt6.QtCore import QRect, pyqtSignal
+from PyQt6.QtCore import QRect, pyqtSignal, Qt
 from PyQt6.QtWidgets import QCheckBox, QDialog, QGridLayout, QPushButton, QWidget
 
 
@@ -40,11 +40,11 @@ class LinuxDesktopFileCategoriesView(QDialog):
 
         # Set window title and size
         self.setWindowTitle("Select your categories")
-        self.setFixedSize(602, 207)
+        self.resize(594, 134)
 
         # Create a grid layout to hold the checkboxes
         self.gridLayoutWidget = QWidget(self)
-        self.gridLayoutWidget.setGeometry(QRect(8, 8, 585, 165))
+        self.gridLayoutWidget.setGeometry(QRect(8, 8, 585, 125))
         self.gridLayout = QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
 
@@ -58,13 +58,9 @@ class LinuxDesktopFileCategoriesView(QDialog):
         # Create an "Ok" button and connect its clicked signal to the get_type_categories method
         self.pushButton = QPushButton(self)
         self.pushButton.setText("Ok")
-        button_x = int((self.width() / 2) - 34)
-        button_y = 168
-        button_width = 68
-        button_height = 32
-        self.pushButton.setGeometry(
-            QRect(button_x, button_y, button_width, button_height)
-        )
+        self.pushButton.setFixedWidth(68)
+        self.gridLayout.addWidget(self.pushButton, row + 1, 2, 4, 1, alignment=Qt.AlignmentFlag.AlignCenter)
+        
         self.pushButton.clicked.connect(self.emit_categories_and_close)
 
     def _get_type_categories(self) -> list[str]:
