@@ -157,6 +157,7 @@ class LinuxDesktopFileController:
                     QMessageBox.Icon.Warning,
                 )
                 self.ldf_view.lineEdit_icon.setText("")
+                self.ldf_view.label_icon_application.setPixmap(self.ldf_view.no_icon)
             else:
                 self.ldf_view.lineEdit_icon.setText(icon_file)
                 self.ldf_view.label_icon_application.setPixmap(pixmap)

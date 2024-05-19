@@ -70,7 +70,7 @@ class LinuxDesktopFileView(QMainWindow):
         button_categories = QIcon(
             ldft.resource_path("Assets/Images/directory_icon.png")
         )
-        no_icon = QPixmap(ldft.resource_path("Assets/Images/No_icon.png"))
+        self.no_icon = QPixmap(ldft.resource_path("Assets/Images/No_icon.png"))
         self.setWindowIcon(QIcon(ldft.resource_path("Assets/Images/Linux.png")))
         self.gridLayoutWidget = QWidget(self)
         self.gridLayoutWidget.setGeometry(QRect(0, 0, 700, 390))
@@ -190,7 +190,7 @@ class LinuxDesktopFileView(QMainWindow):
         self.label_icon_application.setFrameShadow(QFrame.Shadow.Sunken)
         self.label_icon_application.setFixedSize(60, 60)
         self.label_icon_application.setScaledContents(True)
-        self.label_icon_application.setPixmap(no_icon)
+        self.label_icon_application.setPixmap(self.no_icon)
         self.gridLayout.addWidget(
             self.label_icon_application, 0, 2, 2, 2,
             alignment=Qt.AlignmentFlag.AlignCenter,
