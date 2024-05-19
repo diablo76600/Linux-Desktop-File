@@ -32,9 +32,5 @@ class LinuxDesktopFileTools:
         
     @staticmethod
     def resource_path(relative_path):
-        """Returns the absolute path to a resource file located at the given relative path."""
-        temp_folder_path_file = os.path.join(os.path.dirname(__file__), relative_path)
-        if os.path.isfile(temp_folder_path_file):
-            return temp_folder_path_file
-        else:
-            return os.path.join(os.path.abspath('.'), relative_path)
+        """Returns the absolute path to a resource"""
+        return os.path.join(os.path.dirname(os.path.abspath(__file__)), relative_path)
