@@ -148,7 +148,8 @@ class LinuxDesktopFileController:
 
     def set_icon(self) -> None:
         """Open a file dialog to select the icon file and display it."""
-        if icon_file := self.select_file_dialog(caption="Select Icon file.", filter="*.png *.svg *.xpm"):
+        if icon_file := self.select_file_dialog(caption="Select Icon file.", 
+            filter="Images (*.png *.svg *.xpm);;All files (*.*)"):
             pixmap = QPixmap(icon_file)
             if pixmap.isNull():
                 self.display_message(
