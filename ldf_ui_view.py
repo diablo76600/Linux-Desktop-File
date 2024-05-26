@@ -198,7 +198,7 @@ class LinuxDesktopFileView(QMainWindow):
         # Widget Save
         self.pushButton_save = QPushButton(self)
         self.pushButton_save.setText("Save")
-        self.pushButton_save.setFixedSize(68, 32)
+        self.pushButton_save.setFixedWidth(68)
         self.gridLayout.addWidget(
             self.pushButton_save, 12, 1, 
             alignment=Qt.AlignmentFlag.AlignRight
@@ -206,7 +206,7 @@ class LinuxDesktopFileView(QMainWindow):
         # Widget Quit
         self.pushButton_quit = QPushButton(self)
         self.pushButton_quit.setText("Quit")
-        self.pushButton_quit.setFixedSize(68, 32)
+        self.pushButton_quit.setFixedWidth(68)
         self.gridLayout.addWidget(self.pushButton_quit, 12, 2)
         self.setCentralWidget(self.gridLayoutWidget)
         # Show Ui
