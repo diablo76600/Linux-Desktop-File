@@ -40,7 +40,7 @@ class LinuxDesktopFileCategoriesView(QDialog):
 
         # Set window title and size
         self.setWindowTitle("Select your categories")
-        self.resize(594, 134)
+        self.setFixedSize(594, 134)
 
         # Create a grid layout to hold the checkboxes
         self.gridLayoutWidget = QWidget(self)
